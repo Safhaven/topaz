@@ -1249,6 +1249,7 @@ INSERT INTO `mob_spell_lists` VALUES ('Deviator',113,195,1,255);
 INSERT INTO `mob_spell_lists` VALUES ('Deviator',113,200,1,255);
 INSERT INTO `mob_spell_lists` VALUES ('Deviator',113,226,1,255); -- might not have access to poisonga 2
 INSERT INTO `mob_spell_lists` VALUES ('Deviator',113,274,1,255);
+-- 114: assigned to Provoker
 INSERT INTO `mob_spell_lists` VALUES ('Diabolos_Darkness_Named',115,254,1,255);
 INSERT INTO `mob_spell_lists` VALUES ('Diabolos_Darkness_Named',115,231,1,255);
 INSERT INTO `mob_spell_lists` VALUES ('Diabolos_Darkness_Named',115,245,1,255);
@@ -3918,6 +3919,10 @@ INSERT INTO `mob_spell_lists` VALUES ('Bladmall',433,214,1,255);  -- Flood
 INSERT INTO `mob_spell_lists` VALUES ('Nepionic_Bladmall',434,51,68,255); -- Shell IV
 INSERT INTO `mob_spell_lists` VALUES ('Nepionic_Bladmall',434,46,63,255); -- Protect IV
 INSERT INTO `mob_spell_lists` VALUES ('Nepionic_Bladmall',434,4,41,255);  -- Cure IV
+
+INSERT INTO `mob_spell_lists` VALUES ('TRUST_Matsui-P',435,149,24,255); -- Blizzard
+
+-- Next Available: 436
 
 
 /*!40000 ALTER TABLE `mob_spell_lists` ENABLE KEYS */;
