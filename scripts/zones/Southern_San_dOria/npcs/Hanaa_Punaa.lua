@@ -12,21 +12,21 @@ require("scripts/globals/titles")
 function onTrade(player, npc, trade)
 
     -- "The Seamstress" , x3 sheepskin trade
-    if (player:getQuestStatus(SANDORIA, tpz.quest.id.sandoria.THE_SEAMSTRESS) ~= QUEST_AVAILABLE) then
+    if (player:getQuestStatus(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.THE_SEAMSTRESS) ~= QUEST_AVAILABLE) then
         if (trade:hasItemQty(505, 3) and trade:getItemCount() == 3) then
             player:startEvent(530)
         end
     end
 
     -- "Black Tiger Skins", Tiger Hide trade
-    if (player:getQuestStatus(SANDORIA, tpz.quest.id.sandoria.BLACK_TIGER_SKINS) == QUEST_ACCEPTED) then
+    if (player:getQuestStatus(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.BLACK_TIGER_SKINS) == QUEST_ACCEPTED) then
         if (trade:hasItemQty(861, 3) and trade:getItemCount() == 3) then
             player:startEvent(577)
         end
     end
 
     -- "Lizard Skins", lizard skin trade
-    if (player:getQuestStatus(SANDORIA, tpz.quest.id.sandoria.LIZARD_SKINS) ~= QUEST_AVAILABLE) then
+    if (player:getQuestStatus(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.LIZARD_SKINS) ~= QUEST_AVAILABLE) then
         if (trade:hasItemQty(852, 3) and trade:getItemCount() == 3) then
             player:startEvent(561)
         end
@@ -37,9 +37,9 @@ function onTrigger(player, npc)
 
     -- Checking Fame Level & Quest
     local sanFame = player:getFameLevel(SANDORIA)
-    local theSteamStress = player:getQuestStatus(SANDORIA, tpz.quest.id.sandoria.THE_SEAMSTRESS)
-    local lizardSkins = player:getQuestStatus(SANDORIA, tpz.quest.id.sandoria.LIZARD_SKINS)
-    local blackTigerSkins = player:getQuestStatus(SANDORIA, tpz.quest.id.sandoria.BLACK_TIGER_SKINS)
+    local theSteamStress = player:getQuestStatus(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.THE_SEAMSTRESS)
+    local lizardSkins = player:getQuestStatus(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.LIZARD_SKINS)
+    local blackTigerSkins = player:getQuestStatus(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.BLACK_TIGER_SKINS)
 
     -- "The Seamstress" Quest Status
     if (theSteamStress == QUEST_AVAILABLE and player:getCharVar("theSeamStress") == 1) then
@@ -84,7 +84,7 @@ function onEventFinish(player, csid, option)
 
     -- "The Seamstress" Quest
     if ((csid == 528 or csid == 531) and option == 0) then
-        player:addQuest(SANDORIA, tpz.quest.id.sandoria.THE_SEAMSTRESS)
+        player:addQuest(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.THE_SEAMSTRESS)
         player:setCharVar("theSeamStress", 0)
     elseif (csid == 530) then
         if (player:getFreeSlotsCount() == 0) then
@@ -94,9 +94,9 @@ function onEventFinish(player, csid, option)
             player:addTitle(tpz.title.SILENCER_OF_THE_LAMBS)
             player:addItem(12696)
             player:messageSpecial(ID.text.ITEM_OBTAINED, 12696) -- Leather Gloves
-            if (player:getQuestStatus(SANDORIA, tpz.quest.id.sandoria.THE_SEAMSTRESS) == QUEST_ACCEPTED) then
+            if (player:getQuestStatus(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.THE_SEAMSTRESS) == QUEST_ACCEPTED) then
                 player:addFame(SANDORIA, 30)
-                player:completeQuest(SANDORIA, tpz.quest.id.sandoria.THE_SEAMSTRESS)
+                player:completeQuest(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.THE_SEAMSTRESS)
             else
                 player:addFame(SANDORIA, 5)
             end
@@ -104,7 +104,7 @@ function onEventFinish(player, csid, option)
 
     -- "Liard Skins" Quest
     elseif ((csid == 559 or csid == 562) and option == 0) then
-        player:addQuest(SANDORIA, tpz.quest.id.sandoria.LIZARD_SKINS)
+        player:addQuest(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.LIZARD_SKINS)
         player:setCharVar("lzdSkins", 0)
     elseif (csid == 561) then
         if (player:getFreeSlotsCount() == 0) then
@@ -114,9 +114,9 @@ function onEventFinish(player, csid, option)
             player:addTitle(tpz.title.LIZARD_SKINNER)
             player:addItem(12697)
             player:messageSpecial(ID.text.ITEM_OBTAINED, 12697) -- Lizard Gloves
-            if (player:getQuestStatus(SANDORIA, tpz.quest.id.sandoria.LIZARD_SKINS) == QUEST_ACCEPTED) then
+            if (player:getQuestStatus(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.LIZARD_SKINS) == QUEST_ACCEPTED) then
                 player:addFame(SANDORIA, 30)
-                player:completeQuest(SANDORIA, tpz.quest.id.sandoria.LIZARD_SKINS)
+                player:completeQuest(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.LIZARD_SKINS)
             else
                 player:addFame(SANDORIA, 5)
             end
@@ -124,7 +124,7 @@ function onEventFinish(player, csid, option)
 
     -- "Black Tiger Skins" Quest
     elseif ((csid == 576 or csid == 579) and option == 0) then
-        player:addQuest(SANDORIA, tpz.quest.id.sandoria.BLACK_TIGER_SKINS)
+        player:addQuest(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.BLACK_TIGER_SKINS)
         player:setCharVar("blkTigerSkin", 0)
     elseif (csid == 577) then
         if (player:getFreeSlotsCount() == 0) then
@@ -135,7 +135,7 @@ function onEventFinish(player, csid, option)
             player:addItem(13119)
             player:messageSpecial(ID.text.ITEM_OBTAINED, 13119) -- Tyger Stole
             player:addFame(SANDORIA, 30)
-            player:completeQuest(SANDORIA, tpz.quest.id.sandoria.BLACK_TIGER_SKINS)
+            player:completeQuest(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.BLACK_TIGER_SKINS)
         end
     end
 

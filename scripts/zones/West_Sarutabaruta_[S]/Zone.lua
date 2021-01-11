@@ -5,10 +5,12 @@
 -----------------------------------
 local ID = require("scripts/zones/West_Sarutabaruta_[S]/IDs")
 require("scripts/globals/helm")
+require("scripts/globals/campaign")
 -----------------------------------
 
 function onInitialize(zone)
     tpz.helm.initZone(zone, tpz.helm.type.HARVESTING)
+	tpz.campaign.initZone(zone)
 end
 
 function onZoneIn(player, prevZone)

@@ -13,7 +13,7 @@ require("scripts/globals/npc_util")
 -----------------------------------
 
 function onTrade(player, npc, trade)
-    if player:getQuestStatus(WINDURST, tpz.quest.id.windurst.MANDRAGORA_MAD) ~= QUEST_AVAILABLE then
+    if player:getQuestStatus(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.MANDRAGORA_MAD) ~= QUEST_AVAILABLE then
         if npcUtil.tradeHas(trade, 17344, true) then
             player:startEvent(251, GIL_RATE*200)
         elseif npcUtil.tradeHas(trade, 934, true) then
@@ -31,8 +31,8 @@ function onTrade(player, npc, trade)
 end
 
 function onTrigger(player, npc)
-    local MandragoraMad = player:getQuestStatus(WINDURST, tpz.quest.id.windurst.MANDRAGORA_MAD)
-    local blastFromPast = player:getQuestStatus(WINDURST, tpz.quest.id.windurst.BLAST_FROM_THE_PAST)
+    local MandragoraMad = player:getQuestStatus(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.MANDRAGORA_MAD)
+    local blastFromPast = player:getQuestStatus(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.BLAST_FROM_THE_PAST)
     local MEMORIES_OF_A_MAIDEN = player:getCharVar("MEMORIES_OF_A_MAIDEN_Status")
     local LouverancePath = player:getCharVar("COP_Louverance_s_Path")
     local MissionStatus = player:getCharVar("MissionStatus")
@@ -76,7 +76,7 @@ end
 
 function onEventFinish(player, csid, option)
     if csid == 249 then
-        player:addQuest(WINDURST, tpz.quest.id.windurst.MANDRAGORA_MAD)
+        player:addQuest(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.MANDRAGORA_MAD)
     elseif csid == 469 then
         player:setCharVar("MEMORIES_OF_A_MAIDEN_Status", 4)
     elseif csid == 470 then

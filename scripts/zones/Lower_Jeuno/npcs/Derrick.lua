@@ -21,7 +21,7 @@ end
 
 function onTrigger(player, npc)
     AirshipKI = player:hasKeyItem(tpz.ki.AIRSHIP_PASS)
-    saveTheClockTower = player:getQuestStatus(JEUNO, tpz.quest.id.jeuno.SAVE_THE_CLOCK_TOWER)
+    saveTheClockTower = player:getQuestStatus(tpz.quest.log_id.JEUNO, tpz.quest.id.jeuno.SAVE_THE_CLOCK_TOWER)
     NPCNumber = player:getCharVar("saveTheClockTowerVar") -- Quest step & number of npc
     AgreeSignPetition = player:getCharVar("saveTheClockTowerVar2") -- Sum of all NPC
 
@@ -93,6 +93,6 @@ function onEventFinish(player, csid, option)
         player:addTitle(tpz.title.CLOCK_TOWER_PRESERVATIONIST)
         player:addFame(JEUNO, 30)
         player:tradeComplete(trade)
-        player:completeQuest(JEUNO, tpz.quest.id.jeuno.SAVE_THE_CLOCK_TOWER)
+        player:completeQuest(tpz.quest.log_id.JEUNO, tpz.quest.id.jeuno.SAVE_THE_CLOCK_TOWER)
     end
 end

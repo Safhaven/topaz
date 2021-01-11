@@ -14,7 +14,7 @@ require("scripts/globals/titles")
 function onTrade(player, npc, trade)
     local FakeMoustache = player:hasKeyItem(tpz.ki.FAKE_MOUSTACHE)
     local InvisibleManSticker = player:hasKeyItem(tpz.ki.INVISIBLE_MAN_STICKER)
-    local InAPickle = player:getQuestStatus(WINDURST, tpz.quest.id.windurst.IN_A_PICKLE)
+    local InAPickle = player:getQuestStatus(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.IN_A_PICKLE)
     local count = trade:getItemCount()
     local gil = trade:getGil()
 
@@ -34,7 +34,7 @@ function onTrade(player, npc, trade)
             player:tradeComplete(trade)
         end
     elseif (FakeMoustache == false) then
-        local InspectorsGadget = player:getQuestStatus(WINDURST, tpz.quest.id.windurst.INSPECTOR_S_GADGET)
+        local InspectorsGadget = player:getQuestStatus(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.INSPECTOR_S_GADGET)
 
         if (InspectorsGadget == QUEST_ACCEPTED) then
             local SarutaCotton = trade:hasItemQty(834, 4)
@@ -44,7 +44,7 @@ function onTrade(player, npc, trade)
             end
         end
     elseif (InvisibleManSticker == false) then
-        local ThePromise = player:getQuestStatus(WINDURST, tpz.quest.id.windurst.THE_PROMISE)
+        local ThePromise = player:getQuestStatus(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.THE_PROMISE)
 
         if (ThePromise == QUEST_ACCEPTED) then
             local ShoalWeed = trade:hasItemQty(1148, 1)
@@ -58,9 +58,9 @@ function onTrade(player, npc, trade)
 end
 
 function onTrigger(player, npc)
-    local InspectorsGadget = player:getQuestStatus(WINDURST, tpz.quest.id.windurst.INSPECTOR_S_GADGET)
-    local ThePromise = player:getQuestStatus(WINDURST, tpz.quest.id.windurst.THE_PROMISE)
-    local InAPickle = player:getQuestStatus(WINDURST, tpz.quest.id.windurst.IN_A_PICKLE)
+    local InspectorsGadget = player:getQuestStatus(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.INSPECTOR_S_GADGET)
+    local ThePromise = player:getQuestStatus(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.THE_PROMISE)
+    local InAPickle = player:getQuestStatus(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.IN_A_PICKLE)
     local NeedToZone = player:needToZone()
 
     if (ThePromise == QUEST_ACCEPTED) then
@@ -106,7 +106,7 @@ function onTrigger(player, npc)
     else
         player:startEvent(651) -- Standard Conversation
     end
--- player:delQuest(WINDURST, tpz.quest.id.windurst.IN_A_PICKLE); [[[[[[[[[[[[[ FOR TESTING ONLY ]]]]]]]]]]]]]
+-- player:delQuest(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.IN_A_PICKLE); [[[[[[[[[[[[[ FOR TESTING ONLY ]]]]]]]]]]]]]
 end
 
 function onEventUpdate(player, csid, option)
@@ -127,10 +127,10 @@ function onEventFinish(player, csid, option)
         player:addKeyItem(tpz.ki.INVISIBLE_MAN_STICKER)
         player:messageSpecial(ID.text.KEYITEM_OBTAINED, tpz.ki.INVISIBLE_MAN_STICKER)
     elseif (csid == 654 and option == 1) then  -- IN A PICKLE + RARAB TAIL: Quest Begin
-        player:addQuest(WINDURST, tpz.quest.id.windurst.IN_A_PICKLE)
+        player:addQuest(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.IN_A_PICKLE)
     elseif (csid == 659) then  -- IN A PICKLE: Quest Turn In (1st Time)
         player:tradeComplete(trade)
-        player:completeQuest(WINDURST, tpz.quest.id.windurst.IN_A_PICKLE)
+        player:completeQuest(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.IN_A_PICKLE)
         player:needToZone(true)
         player:addItem(12505)
         player:messageSpecial(ID.text.ITEM_OBTAINED, 12505)

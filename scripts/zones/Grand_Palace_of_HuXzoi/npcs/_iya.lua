@@ -15,7 +15,7 @@ function onTrigger(player, npc)
 
     if player:getCurrentMission(COP) == tpz.mission.id.cop.GARDEN_OF_ANTIQUITY and player:getCharVar("PromathiaStatus") == 3 then
         player:startEvent(1)
-    elseif player:getQuestStatus(JEUNO, tpz.quest.id.jeuno.APOCALYPSE_NIGH) == QUEST_ACCEPTED and
+    elseif player:getQuestStatus(tpz.quest.log_id.JEUNO, tpz.quest.id.jeuno.APOCALYPSE_NIGH) == QUEST_ACCEPTED and
         player:getCharVar('ApocalypseNigh') == 2 then
         player:startEvent(4)
     else
@@ -40,8 +40,8 @@ function onEventFinish(player, csid, option)
         else
             if (player:addItem(14672)) then
                 player:setCharVar("PromathiaStatus", 0)
-                player:completeMission(COP, tpz.mission.id.cop.GARDEN_OF_ANTIQUITY)
-                player:addMission(COP, tpz.mission.id.cop.A_FATE_DECIDED)
+                player:completeMission(tpz.mission.log_id.COP, tpz.mission.id.cop.GARDEN_OF_ANTIQUITY)
+                player:addMission(tpz.mission.log_id.COP, tpz.mission.id.cop.A_FATE_DECIDED)
                 player:messageSpecial(ID.text.ITEM_OBTAINED, 14672)
             end
         end

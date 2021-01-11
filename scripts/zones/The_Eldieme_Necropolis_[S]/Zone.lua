@@ -4,9 +4,11 @@
 --
 -----------------------------------
 local ID = require("scripts/zones/The_Eldieme_Necropolis_[S]/IDs")
+require("scripts/globals/campaign")
 -----------------------------------
 
 function onInitialize(zone)
+	tpz.campaign.initZone(zone)
 end
 
 function onZoneIn(player, prevZone)

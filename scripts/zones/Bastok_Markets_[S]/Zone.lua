@@ -5,10 +5,12 @@
 -----------------------------------
 local ID = require("scripts/zones/Bastok_Markets_[S]/IDs")
 require("scripts/globals/chocobo")
+require("scripts/globals/campaign")
 -----------------------------------
 
 function onInitialize(zone)
     tpz.chocobo.initZone(zone)
+	tpz.campaign.initZone(zone)
 end
 
 function onZoneIn(player, prevZone)

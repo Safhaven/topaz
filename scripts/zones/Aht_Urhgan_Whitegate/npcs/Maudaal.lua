@@ -10,7 +10,7 @@ function onTrade(player, npc, trade)
 end
 
 function onTrigger(player, npc)
-    local princeAndHopperStatus = player:getQuestStatus(AHT_URHGAN, tpz.quest.id.ahtUrhgan.THE_PRINCE_AND_THE_HOPPER)
+    local princeAndHopperStatus = player:getQuestStatus(tpz.quest.log_id.AHT_URHGAN, tpz.quest.id.ahtUrhgan.THE_PRINCE_AND_THE_HOPPER)
     if princeAndHopperStatus == QUEST_AVAILABLE then
         player:startEvent(889)
     elseif princeAndHopperStatus == QUEST_ACCEPTED and player:getCharVar("princeandhopper") == 6 then
@@ -25,7 +25,7 @@ end
 
 function onEventFinish(player, csid, option)
     if csid == 889 and option == 2 then
-        player:addQuest(AHT_URHGAN, tpz.quest.id.ahtUrhgan.THE_PRINCE_AND_THE_HOPPER)
+        player:addQuest(tpz.quest.log_id.AHT_URHGAN, tpz.quest.id.ahtUrhgan.THE_PRINCE_AND_THE_HOPPER)
         player:setCharVar("princeandhopper", 1)
     elseif csid == 890 then
         npcUtil.completeQuest(

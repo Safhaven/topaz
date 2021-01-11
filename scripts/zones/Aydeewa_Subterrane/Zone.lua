@@ -33,7 +33,7 @@ end
 function onRegionEnter(player, region)
     if region:GetRegionID() == 1 then
         local StoneID = player:getCharVar("EmptyVesselStone")
-        if player:getQuestStatus(AHT_URHGAN, tpz.quest.id.ahtUrhgan.AN_EMPTY_VESSEL) == QUEST_ACCEPTED and player:getCharVar("AnEmptyVesselProgress") == 4 and player:hasItem(StoneID) then
+        if player:getQuestStatus(tpz.quest.log_id.AHT_URHGAN, tpz.quest.id.ahtUrhgan.AN_EMPTY_VESSEL) == QUEST_ACCEPTED and player:getCharVar("AnEmptyVesselProgress") == 4 and player:hasItem(StoneID) then
             player:startEvent(3, StoneID)
         end
     end
@@ -56,7 +56,7 @@ function onEventFinish(player, csid, option)
     elseif csid == 3 and option ~= 13 then -- Make a mistake and get reset
         player:setCharVar("AnEmptyVesselProgress", 0)
         player:setCharVar("EmptyVesselStone", 0)
-        player:delQuest(AHT_URHGAN, tpz.quest.id.ahtUrhgan.AN_EMPTY_VESSEL)
+        player:delQuest(tpz.quest.log_id.AHT_URHGAN, tpz.quest.id.ahtUrhgan.AN_EMPTY_VESSEL)
         player:setPos(148, -2, 0, 130, 50)
     elseif csid == 10 then
         player:setCharVar("AhtUrganStatus", 1)

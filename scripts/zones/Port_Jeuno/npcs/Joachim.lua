@@ -43,13 +43,13 @@ function onTrigger(player, npc)
         isCap = 1
     end
 
-    if (player:getQuestStatus(ABYSSEA, tpz.quest.id.abyssea.A_JOURNEY_BEGINS) == QUEST_ACCEPTED) then
+    if (player:getQuestStatus(tpz.quest.log_id.ABYSSEA, tpz.quest.id.abyssea.A_JOURNEY_BEGINS) == QUEST_ACCEPTED) then
         player:startEvent(325)
-    elseif (player:getQuestStatus(ABYSSEA, tpz.quest.id.abyssea.THE_TRUTH_BECKONS) == QUEST_ACCEPTED and player:getCharVar("1stTimeAbyssea") == 1) then
+    elseif (player:getQuestStatus(tpz.quest.log_id.ABYSSEA, tpz.quest.id.abyssea.THE_TRUTH_BECKONS) == QUEST_ACCEPTED and player:getCharVar("1stTimeAbyssea") == 1) then
         player:startEvent(327, 0, 0, MaxKI) -- cs for "The Truth Beckons" completion
-    elseif (player:getQuestStatus(ABYSSEA, tpz.quest.id.abyssea.THE_TRUTH_BECKONS) ~= QUEST_COMPLETED) then
+    elseif (player:getQuestStatus(tpz.quest.log_id.ABYSSEA, tpz.quest.id.abyssea.THE_TRUTH_BECKONS) ~= QUEST_COMPLETED) then
         player:startEvent(326) -- Pre "The Truth Beckons" Menu
-    elseif (player:getQuestStatus(ABYSSEA, tpz.quest.id.abyssea.DAWN_OF_DEATH) == QUEST_ACCEPTED) then
+    elseif (player:getQuestStatus(tpz.quest.log_id.ABYSSEA, tpz.quest.id.abyssea.DAWN_OF_DEATH) == QUEST_ACCEPTED) then
         player:startEvent(328, 0, StonesStock, StonesKI, isCap, 1, 1, 1, 3) -- Post "The Truth Beckons" Menu
     -- elseif
         -- player:startEvent(332)
@@ -63,11 +63,11 @@ function onEventFinish(player, csid, option)
     if (csid == 325) then
         player:messageSpecial(ID.text.KEYITEM_OBTAINED, tpz.ki.TRAVERSER_STONE1)
         player:addKeyItem(tpz.ki.TRAVERSER_STONE1)
-        player:completeQuest(ABYSSEA, tpz.quest.id.abyssea.A_JOURNEY_BEGINS)
-        player:addQuest(ABYSSEA, tpz.quest.id.abyssea.THE_TRUTH_BECKONS)
+        player:completeQuest(tpz.quest.log_id.ABYSSEA, tpz.quest.id.abyssea.A_JOURNEY_BEGINS)
+        player:addQuest(tpz.quest.log_id.ABYSSEA, tpz.quest.id.abyssea.THE_TRUTH_BECKONS)
     elseif (csid == 327) then
-        player:completeQuest(ABYSSEA, tpz.quest.id.abyssea.THE_TRUTH_BECKONS)
-        player:addQuest(ABYSSEA, tpz.quest.id.abyssea.DAWN_OF_DEATH)
+        player:completeQuest(tpz.quest.log_id.ABYSSEA, tpz.quest.id.abyssea.THE_TRUTH_BECKONS)
+        player:addQuest(tpz.quest.log_id.ABYSSEA, tpz.quest.id.abyssea.DAWN_OF_DEATH)
         player:setCharVar("1stTimeAbyssea", 0)
     elseif (csid == 328 and option == 6) then
         local StonesKI = tpz.abyssea.getTravStonesTotal(player)

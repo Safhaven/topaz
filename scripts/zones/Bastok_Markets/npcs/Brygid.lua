@@ -18,10 +18,10 @@ local body_list = {12554, 13712, 12594, 13723, 12603, 13699, 12610, 13783, 12572
 local legs_list = {12829, 12800, 12866, 12809, 12810, 12850, 12828, 12859, 12837, 14243, 12838, 12867, 12827, 12836, 12860, 12851}
 
 function onTrade(player, npc, trade)
-    local BrygidReturns = player:getQuestStatus(BASTOK, tpz.quest.id.bastok.BRYGID_THE_STYLIST_RETURNS)
+    local BrygidReturns = player:getQuestStatus(tpz.quest.log_id.BASTOK, tpz.quest.id.bastok.BRYGID_THE_STYLIST_RETURNS)
     local wantsSubligar = player:getCharVar("BrygidWantsSubligar")
 
-    if (player:getQuestStatus(JEUNO, tpz.quest.id.jeuno.RIDING_ON_THE_CLOUDS) == QUEST_ACCEPTED and player:getCharVar("ridingOnTheClouds_2") == 3) then
+    if (player:getQuestStatus(tpz.quest.log_id.JEUNO, tpz.quest.id.jeuno.RIDING_ON_THE_CLOUDS) == QUEST_ACCEPTED and player:getCharVar("ridingOnTheClouds_2") == 3) then
         if (trade:hasItemQty(1127, 1) and trade:getItemCount() == 1) then -- Trade Kindred seal
             player:setCharVar("ridingOnTheClouds_2", 0)
             player:tradeComplete()
@@ -44,8 +44,8 @@ function onTrade(player, npc, trade)
 end
 
 function onTrigger(player, npc)
-    local BrygidTheStylist = player:getQuestStatus(BASTOK, tpz.quest.id.bastok.BRYGID_THE_STYLIST)
-    local BrygidReturns = player:getQuestStatus(BASTOK, tpz.quest.id.bastok.BRYGID_THE_STYLIST_RETURNS)
+    local BrygidTheStylist = player:getQuestStatus(tpz.quest.log_id.BASTOK, tpz.quest.id.bastok.BRYGID_THE_STYLIST)
+    local BrygidReturns = player:getQuestStatus(tpz.quest.log_id.BASTOK, tpz.quest.id.bastok.BRYGID_THE_STYLIST_RETURNS)
     local head = player:getEquipID(tpz.slot.HEAD)
     local body = player:getEquipID(tpz.slot.BODY)
     local hands = player:getEquipID(tpz.slot.HANDS)
@@ -121,8 +121,8 @@ end
 function onEventFinish(player, csid, option)
     local wantsSubligar = player:getCharVar("BrygidWantsSubligar")
 
-    if (csid == 310 and player:getQuestStatus(BASTOK, tpz.quest.id.bastok.BRYGID_THE_STYLIST) == QUEST_AVAILABLE) then
-        player:addQuest(BASTOK, tpz.quest.id.bastok.BRYGID_THE_STYLIST)
+    if (csid == 310 and player:getQuestStatus(tpz.quest.log_id.BASTOK, tpz.quest.id.bastok.BRYGID_THE_STYLIST) == QUEST_AVAILABLE) then
+        player:addQuest(tpz.quest.log_id.BASTOK, tpz.quest.id.bastok.BRYGID_THE_STYLIST)
     elseif (csid == 311) then
         if (player:getFreeSlotsCount() == 0) then
             player:messageSpecial(ID.text.ITEM_CANNOT_BE_OBTAINED, 12720)
@@ -131,11 +131,11 @@ function onEventFinish(player, csid, option)
             player:addItem(12720)
             player:messageSpecial(ID.text.ITEM_OBTAINED, 12720)
             player:addFame(BASTOK, 30)
-            player:completeQuest(BASTOK, tpz.quest.id.bastok.BRYGID_THE_STYLIST)
+            player:completeQuest(tpz.quest.log_id.BASTOK, tpz.quest.id.bastok.BRYGID_THE_STYLIST)
         end
     elseif (csid == 380) then
-        player:delQuest(BASTOK, tpz.quest.id.bastok.BRYGID_THE_STYLIST_RETURNS)
-        player:addQuest(BASTOK, tpz.quest.id.bastok.BRYGID_THE_STYLIST_RETURNS)
+        player:delQuest(tpz.quest.log_id.BASTOK, tpz.quest.id.bastok.BRYGID_THE_STYLIST_RETURNS)
+        player:addQuest(tpz.quest.log_id.BASTOK, tpz.quest.id.bastok.BRYGID_THE_STYLIST_RETURNS)
     elseif (csid == 382 and option ~= 99) then
         player:setCharVar("BrygidWantsSubligar", option)
     elseif (csid == 383) then
@@ -146,6 +146,6 @@ function onEventFinish(player, csid, option)
         player:addItem(14400+wantsSubligar)
         player:messageSpecial(ID.text.ITEM_OBTAINED, 14400+wantsSubligar)
         player:addFame(BASTOK, 30)
-        player:completeQuest(BASTOK, tpz.quest.id.bastok.BRYGID_THE_STYLIST_RETURNS)
+        player:completeQuest(tpz.quest.log_id.BASTOK, tpz.quest.id.bastok.BRYGID_THE_STYLIST_RETURNS)
     end
 end

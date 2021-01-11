@@ -2,7 +2,7 @@
 -- Area: Balga's Dais
 --  Mob: Wyrm
 -- KSNM: Early Bird Catches the Wyrm
--- For future reference: Trusts are not allowed in this fight 
+-- For future reference: Trusts are not allowed in this fight
 -----------------------------------
 require("scripts/globals/status")
 
@@ -36,13 +36,13 @@ function onMobFight(mob, target)
 
     -- Return to ground at 33% HP
     if
-        mob:AnimationSub() == 1 and -- is flying
+        mob:getAnimationSub() == 1 and -- is flying
         mob:getHPP() <= 33 and
         notBusy(mob)
     then
         mob:useMobAbility(954)
         -- Touchdown will set the following for us in the skill script:
-        -- lifted wings model stance: mob:AnimationSub(2)
+        -- lifted wings model stance: mob:setAnimationSub(2)
         -- reset default attack:      mob:SetMobSkillAttack(0)
         -- reset melee attacks:       mob:delStatusEffect(tpz.effect.TOO_HIGH)
         mob:addStatusEffect(tpz.effect.EVASION_BOOST, 75, 0, 0)
@@ -56,10 +56,10 @@ function onMobFight(mob, target)
     elseif
         mob:getHPP() > 33 and
         mob:getHPP() <= 66 and
-        mob:AnimationSub() == 0 and -- is on ground
+        mob:getAnimationSub() == 0 and -- is on ground
         notBusy(mob)
     then
-        mob:AnimationSub(1) -- flying model stance
+        mob:setAnimationSub(1) -- flying model stance
         mob:addStatusEffectEx(tpz.effect.TOO_HIGH, 0, 1, 0, 0) -- melee attacks miss now
         mob:SetMobSkillAttack(1146) -- change default attack to ranged fire magic damage
         mob:setMobMod(tpz.mobMod.SKILL_LIST, 1147) -- change skill set to flying moves

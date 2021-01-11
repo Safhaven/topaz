@@ -15,7 +15,7 @@ function onTrade(player, npc, trade)
 end
 
 function onTrigger(player, npc)
-    local gotitall = player:getQuestStatus(AHT_URHGAN, tpz.quest.id.ahtUrhgan.GOT_IT_ALL)
+    local gotitall = player:getQuestStatus(tpz.quest.log_id.AHT_URHGAN, tpz.quest.id.ahtUrhgan.GOT_IT_ALL)
     local gotItAllProg = player:getCharVar("gotitallCS")
     local threeMenProg = player:getCharVar("threemenandaclosetCS")
     if gotitall == QUEST_AVAILABLE then
@@ -44,7 +44,7 @@ end
 
 function onEventFinish(player, csid, option)
     if csid == 520 then
-        player:addQuest(AHT_URHGAN, tpz.quest.id.ahtUrhgan.GOT_IT_ALL)
+        player:addQuest(tpz.quest.log_id.AHT_URHGAN, tpz.quest.id.ahtUrhgan.GOT_IT_ALL)
         player:setCharVar("gotitallCS", 1)
     elseif csid == 525 and option == 0 then
         player:setCharVar("gotitallCS", 5)

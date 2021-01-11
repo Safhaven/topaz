@@ -34,7 +34,7 @@ end
 
 -- Cutscene for Dances with Luopans.
 local function triggerUncannySensationMessage(player)
-    if player:getQuestStatus(ADOULIN, tpz.quest.id.adoulin.DANCES_WITH_LUOPANS) == QUEST_ACCEPTED then
+    if player:getQuestStatus(tpz.quest.log_id.ADOULIN, tpz.quest.id.adoulin.DANCES_WITH_LUOPANS) == QUEST_ACCEPTED then
         if player:hasKeyItem(tpz.ki.LUOPAN) and player:getCharVar("GEO_DWL_Luopan") == 0 then
             player:messageSpecial(ID.text.UNCANNY_SENSATION)
             player:setLocalVar("GEO_DWL_Locus_Area", 1)
@@ -59,7 +59,7 @@ end
 
 function onEventFinish(player, csid, option)
     if csid == 3 then
-        player:completeMission(SOA, tpz.mission.id.soa.ONWARD_TO_ADOULIN)
-        player:addMission(SOA, tpz.mission.id.soa.HEARTWINGS_AND_THE_KINDHEARTED)
+        player:completeMission(tpz.mission.log_id.SOA, tpz.mission.id.soa.ONWARD_TO_ADOULIN)
+        player:addMission(tpz.mission.log_id.SOA, tpz.mission.id.soa.HEARTWINGS_AND_THE_KINDHEARTED)
     end
 end

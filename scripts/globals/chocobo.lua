@@ -81,7 +81,7 @@ tpz.chocobo.initZone = function(zone)
         SetServerVariable("[CHOCOBO][" .. zoneId .. "]price", info.basePrice)
         SetServerVariable("[CHOCOBO][" .. zoneId .. "]time", os.time())
     else
-        printf("[warning] bad zoneId %i in tpz.chocobo.initZone", zoneId)
+        printf("[warning] bad zoneId %i in tpz.chocobo.initZone (%s)", zoneId, zone:getName())
     end
 end
 
@@ -91,7 +91,7 @@ tpz.chocobo.renterOnTrigger = function(player, eventSucceed, eventFail)
     local info   = chocoboInfo[zoneId]
 
     if info then
-        if player:hasKeyItem(tpz.ki.CHOCOBO_LICENSE) and mLvl >= info.levelReq and (player:hasCompletedMission(WOTG, tpz.mission.id.wotg.BACK_TO_THE_BEGINNING) or not info.past) then
+        if player:hasKeyItem(tpz.ki.CHOCOBO_LICENSE) and mLvl >= info.levelReq and (player:hasCompletedMission(tpz.mission.log_id.WOTG, tpz.mission.id.wotg.BACK_TO_THE_BEGINNING) or not info.past) then
             local price = getPrice(zoneId, info)
             player:setLocalVar("[CHOCOBO]price", price)
 

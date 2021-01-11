@@ -22,7 +22,7 @@ function onTrade(player, npc, trade)
 end
 
 function onTrigger(player, npc)
-    if (player:getQuestStatus(BASTOK, tpz.quest.id.bastok.WISH_UPON_A_STAR) == QUEST_COMPLETED) then -- Quest: Wish Upon a Star - Quest has been completed.
+    if (player:getQuestStatus(tpz.quest.log_id.BASTOK, tpz.quest.id.bastok.WISH_UPON_A_STAR) == QUEST_COMPLETED) then -- Quest: Wish Upon a Star - Quest has been completed.
         player:startEvent(335)
     elseif (player:getCharVar("WishUponAStar_Status") == 2) then -- Quest: Wish Upon a Star - Player has spoken with Malene
         player:startEvent(332)
@@ -43,7 +43,7 @@ function onEventFinish(player, csid, option)
         player:setCharVar("WishUponAStar_Status", 3)
     elseif (csid == 334) then -- Quest: Wish Upon a Star - Traded Fallen Star
         player:tradeComplete( )
-        player:completeQuest(BASTOK, tpz.quest.id.bastok.WISH_UPON_A_STAR)
+        player:completeQuest(tpz.quest.log_id.BASTOK, tpz.quest.id.bastok.WISH_UPON_A_STAR)
         player:setCharVar("WishUponAStar_Status", 0)
         player:addFame(BASTOK, 50)
         player:addItem(1236, 4) -- Reward for quest completion: Cactus Stems x 4

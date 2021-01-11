@@ -6,10 +6,12 @@
 local ID = require("scripts/zones/Fort_Karugo-Narugo_[S]/IDs")
 require("scripts/globals/status")
 require("scripts/globals/helm")
+require("scripts/globals/campaign")
 -----------------------------------
 
 function onInitialize(zone)
     tpz.helm.initZone(zone, tpz.helm.type.LOGGING)
+	tpz.campaign.initZone(zone)
 end
 
 function onZoneIn(player, prevZone)

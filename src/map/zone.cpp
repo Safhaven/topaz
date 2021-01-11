@@ -146,6 +146,7 @@ CZone::CZone(ZONEID ZoneID, REGION_TYPE RegionID, CONTINENT_TYPE ContinentID)
     m_WeatherChangeTime  = 0;
     m_navMesh            = nullptr;
     m_zoneEntities       = new CZoneEntities(this);
+    m_CampaignHandler    = new CCampaignHandler(this);
 
     // settings should load first
     LoadZoneSettings();
@@ -165,6 +166,16 @@ CZone::~CZone()
  *  Функции доступа к полям класса                                       *
  *                                                                       *
  ************************************************************************/
+
+uint32 CZone::GetLocalVar(const char* var)
+{
+    return m_LocalVars[var];
+}
+
+void CZone::SetLocalVar(const char* var, uint32 val)
+{
+    m_LocalVars[var] = val;
+}
 
 ZONEID CZone::GetID()
 {
@@ -234,6 +245,26 @@ uint8 CZone::GetBackgroundMusicDay() const
 uint8 CZone::GetBackgroundMusicNight() const
 {
     return m_zoneMusic.m_songNight;
+}
+
+void CZone::SetSoloBattleMusic(uint8 music)
+{
+    m_zoneMusic.m_bSongS = music;
+}
+
+void CZone::SetPartyBattleMusic(uint8 music)
+{
+    m_zoneMusic.m_bSongM = music;
+}
+
+void CZone::SetBackgroundMusicDay(uint8 music)
+{
+    m_zoneMusic.m_songDay = music;
+}
+
+void CZone::SetBackgroundMusicNight(uint8 music)
+{
+    m_zoneMusic.m_songNight = music;
 }
 
 bool CZone::CanUseMisc(uint16 misc) const
@@ -377,6 +408,10 @@ void CZone::LoadZoneSettings()
         if (m_miscMask & MISC_TREASURE)
         {
             m_TreasurePool = new CTreasurePool(TREASUREPOOL_ZONE);
+        }
+        if (m_CampaignHandler->m_PZone == nullptr)
+        {
+            m_CampaignHandler = nullptr;
         }
     }
     else

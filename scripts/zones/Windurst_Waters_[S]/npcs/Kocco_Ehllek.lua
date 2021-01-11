@@ -8,7 +8,7 @@ function onTrade(player, npc, trade)
 end
 
 function onTrigger(player, npc)
-    local RedeemingRocks = player:getQuestStatus(CRYSTAL_WAR, tpz.quest.id.crystalWar.REDEEMING_ROCKS)
+    local RedeemingRocks = player:getQuestStatus(tpz.quest.log_id.CRYSTAL_WAR, tpz.quest.id.crystalWar.REDEEMING_ROCKS)
     local RocksProg = player:getCharVar("RedeemingRocksProg")
 
     if RedeemingRocks == QUEST_AVAILABLE then
@@ -30,7 +30,7 @@ end
 function onEventFinish(player, csid, option)
 
     if csid == 108 then -- Finish "Redeeming Rocks" opening CS
-        player:addQuest(CRYSTAL_WAR, tpz.quest.id.crystalWar.REDEEMING_ROCKS)
+        player:addQuest(tpz.quest.log_id.CRYSTAL_WAR, tpz.quest.id.crystalWar.REDEEMING_ROCKS)
         player:setCharVar("RedeemingRocksProg", 1)
     elseif csid == 109 then -- Finish "Redeeming Rocks" third CS
         player:setCharVar("RedeemingRocksProg", 3)

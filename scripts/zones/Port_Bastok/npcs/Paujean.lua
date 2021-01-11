@@ -12,7 +12,7 @@ require("scripts/globals/utils")
 -----------------------------------
 
 function onTrade(player, npc, trade)
-    local SilenceOfTheRams = player:getQuestStatus(BASTOK, tpz.quest.id.bastok.SILENCE_OF_THE_RAMS)
+    local SilenceOfTheRams = player:getQuestStatus(tpz.quest.log_id.BASTOK, tpz.quest.id.bastok.SILENCE_OF_THE_RAMS)
 
     if (SilenceOfTheRams == QUEST_ACCEPTED) then
         local count = trade:getItemCount()
@@ -26,10 +26,10 @@ function onTrade(player, npc, trade)
 end
 
 function onTrigger(player, npc)
-    local SilenceOfTheRams = player:getQuestStatus(BASTOK, tpz.quest.id.bastok.SILENCE_OF_THE_RAMS)
+    local SilenceOfTheRams = player:getQuestStatus(tpz.quest.log_id.BASTOK, tpz.quest.id.bastok.SILENCE_OF_THE_RAMS)
     local WildcatBastok = player:getCharVar("WildcatBastok")
 
-    if (player:getQuestStatus(BASTOK, tpz.quest.id.bastok.LURE_OF_THE_WILDCAT) == QUEST_ACCEPTED and not utils.mask.getBit(WildcatBastok, 2)) then
+    if (player:getQuestStatus(tpz.quest.log_id.BASTOK, tpz.quest.id.bastok.LURE_OF_THE_WILDCAT) == QUEST_ACCEPTED and not utils.mask.getBit(WildcatBastok, 2)) then
         player:startEvent(355)
     elseif (SilenceOfTheRams == QUEST_AVAILABLE and player:getFameLevel(NORG) >= 2) then
         player:startEvent(195)
@@ -47,10 +47,10 @@ end
 
 function onEventFinish(player, csid, option)
     if (csid == 195) then
-        player:addQuest(BASTOK, tpz.quest.id.bastok.SILENCE_OF_THE_RAMS)
+        player:addQuest(tpz.quest.log_id.BASTOK, tpz.quest.id.bastok.SILENCE_OF_THE_RAMS)
     elseif (csid == 196) then
         player:tradeComplete()
-        player:completeQuest(BASTOK, tpz.quest.id.bastok.SILENCE_OF_THE_RAMS)
+        player:completeQuest(tpz.quest.log_id.BASTOK, tpz.quest.id.bastok.SILENCE_OF_THE_RAMS)
         player:addFame(3, 125)
         player:addItem(13201)
         player:messageSpecial(ID.text.ITEM_OBTAINED, 13201)

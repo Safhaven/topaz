@@ -12,8 +12,8 @@ require("scripts/globals/keyitems")
 -----------------------------------
 
 function onTrade(player, npc, trade)
-    local Indomitable = player:getQuestStatus(OUTLANDS, tpz.quest.id.outlands.INDOMITABLE_SPIRIT)
-    local ImmortalLuShang = player:getQuestStatus(OUTLANDS, tpz.quest.id.outlands.THE_IMMORTAL_LU_SHANG)
+    local Indomitable = player:getQuestStatus(tpz.quest.log_id.OUTLANDS, tpz.quest.id.outlands.INDOMITABLE_SPIRIT)
+    local ImmortalLuShang = player:getQuestStatus(tpz.quest.log_id.OUTLANDS, tpz.quest.id.outlands.THE_IMMORTAL_LU_SHANG)
 
     if (ImmortalLuShang == QUEST_ACCEPTED or ImmortalLuShang == QUEST_COMPLETED) and npcUtil.tradeHas(trade, {720, 489, 4102}) then
         player:startEvent(78)
@@ -23,8 +23,8 @@ function onTrade(player, npc, trade)
 end
 
 function onTrigger(player, npc)
-    local Indomitable = player:getQuestStatus(OUTLANDS, tpz.quest.id.outlands.INDOMITABLE_SPIRIT)
-    local ImmortalLuShang = player:getQuestStatus(OUTLANDS, tpz.quest.id.outlands.THE_IMMORTAL_LU_SHANG)
+    local Indomitable = player:getQuestStatus(tpz.quest.log_id.OUTLANDS, tpz.quest.id.outlands.INDOMITABLE_SPIRIT)
+    local ImmortalLuShang = player:getQuestStatus(tpz.quest.log_id.OUTLANDS, tpz.quest.id.outlands.THE_IMMORTAL_LU_SHANG)
     local indomitableTimer = player:getCharVar("IndomitableSpiritTimer")
 
     if player:hasItem(489) == true and (ImmortalLuShang == QUEST_AVAILABLE or ImmortalLuShang == QUEST_COMPLETED) then
@@ -47,11 +47,11 @@ end
 
 function onEventFinish(player, csid, option)
     if csid == 77 then
-        player:addQuest(OUTLANDS, tpz.quest.id.outlands.THE_IMMORTAL_LU_SHANG)
+        player:addQuest(tpz.quest.log_id.OUTLANDS, tpz.quest.id.outlands.THE_IMMORTAL_LU_SHANG)
     elseif csid == 78 and npcUtil.completeQuest(player, OUTLANDS, tpz.quest.id.outlands.THE_IMMORTAL_LU_SHANG, {item=17386, fameArea=RABAO, fame=60, title=tpz.title.THE_IMMORTAL_FISHER_LU_SHANG}) then
         player:confirmTrade()
     elseif csid == 131 then
-        player:addQuest(OUTLANDS, tpz.quest.id.outlands.INDOMITABLE_SPIRIT)
+        player:addQuest(tpz.quest.log_id.OUTLANDS, tpz.quest.id.outlands.INDOMITABLE_SPIRIT)
     elseif csid == 132 then
         player:confirmTrade()
         player:setCharVar("IndomitableSpiritTimer", getConquestTally()) -- Player must wait until next CQ tally

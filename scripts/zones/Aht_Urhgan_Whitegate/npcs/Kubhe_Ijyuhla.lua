@@ -14,8 +14,8 @@ end
 
 function onTrigger(player, npc)
     local threeMenProg = player:getCharVar("threemenandaclosetCS")
-    local threeMenQuest = player:getQuestStatus(AHT_URHGAN, tpz.quest.id.ahtUrhgan.THREE_MEN_AND_A_CLOSET)
-    if player:getQuestStatus(AHT_URHGAN, tpz.quest.id.ahtUrhgan.GOT_IT_ALL) == QUEST_COMPLETED and threeMenQuest == QUEST_AVAILABLE then
+    local threeMenQuest = player:getQuestStatus(tpz.quest.log_id.AHT_URHGAN, tpz.quest.id.ahtUrhgan.THREE_MEN_AND_A_CLOSET)
+    if player:getQuestStatus(tpz.quest.log_id.AHT_URHGAN, tpz.quest.id.ahtUrhgan.GOT_IT_ALL) == QUEST_COMPLETED and threeMenQuest == QUEST_AVAILABLE then
         player:startEvent(836)
     elseif threeMenProg == 2 then
         player:startEvent(837)
@@ -37,7 +37,7 @@ end
 
 function onEventFinish(player, csid, option)
     if csid == 836 then
-        player:addQuest(AHT_URHGAN, tpz.quest.id.ahtUrhgan.THREE_MEN_AND_A_CLOSET)
+        player:addQuest(tpz.quest.log_id.AHT_URHGAN, tpz.quest.id.ahtUrhgan.THREE_MEN_AND_A_CLOSET)
         player:setCharVar("threemenandaclosetCS", 2)
     elseif csid == 838 then
         player:setCharVar("threemenandaclosetCS", 4)

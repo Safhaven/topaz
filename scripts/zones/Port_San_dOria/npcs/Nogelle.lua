@@ -10,7 +10,7 @@ require("scripts/globals/titles")
 -----------------------------------
 
 function onTrade(player, npc, trade)
-    if (player:getQuestStatus(SANDORIA, tpz.quest.id.sandoria.LUFET_S_LAKE_SALT) == QUEST_ACCEPTED) then
+    if (player:getQuestStatus(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.LUFET_S_LAKE_SALT) == QUEST_ACCEPTED) then
         local count = trade:getItemCount()
         LufetSalt = trade:hasItemQty(1019, 3)
         if (LufetSalt == true and count == 3) then
@@ -18,7 +18,7 @@ function onTrade(player, npc, trade)
             player:addFame(SANDORIA, 30)
             player:addGil(GIL_RATE*600)
             player:addTitle(tpz.title.BEAN_CUISINE_SALTER)
-            player:completeQuest(SANDORIA, tpz.quest.id.sandoria.LUFET_S_LAKE_SALT)
+            player:completeQuest(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.LUFET_S_LAKE_SALT)
             player:startEvent(11)
         end
     end
@@ -26,7 +26,7 @@ end
 
 function onTrigger(player, npc)
 
-    local LufetsLakeSalt = player:getQuestStatus(SANDORIA, tpz.quest.id.sandoria.LUFET_S_LAKE_SALT)
+    local LufetsLakeSalt = player:getQuestStatus(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.LUFET_S_LAKE_SALT)
 
     if (LufetsLakeSalt == 0) then
         player:startEvent(12)
@@ -44,7 +44,7 @@ end
 function onEventFinish(player, csid, option)
 
     if (csid == 12 and option == 1) then
-        player:addQuest(SANDORIA, tpz.quest.id.sandoria.LUFET_S_LAKE_SALT)
+        player:addQuest(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.LUFET_S_LAKE_SALT)
     elseif (csid == 11) then
         player:messageSpecial(ID.text.GIL_OBTAINED, GIL_RATE*600)
     end

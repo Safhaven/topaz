@@ -101,7 +101,6 @@ uint16  map_port = 0;
 
 map_config_t       map_config; // map server settings
 map_session_list_t map_session_list;
-CCommandHandler    CmdHandler;
 
 std::thread messageThread;
 
@@ -199,7 +198,6 @@ int32 do_init(int32 argc, char** argv)
     ShowMessage("\t\t - " CL_GREEN "[OK]" CL_RESET "\n");
 
     luautils::init();
-    CmdHandler.init(luautils::LuaHandle);
     PacketParserInitialize();
     SqlHandle = Sql_Malloc();
 
@@ -1525,7 +1523,7 @@ int32 map_config_read(const int8* cfgName)
 int32 map_garbage_collect(time_point tick, CTaskMgr::CTask* PTask)
 {
     TracyZoneScoped;
-    luautils::garbageCollect();
+    luautils::garbageCollectStep();
     return 0;
 }
 

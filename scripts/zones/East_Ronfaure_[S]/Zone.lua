@@ -7,6 +7,7 @@ local ID = require("scripts/zones/East_Ronfaure_[S]/IDs")
 require("scripts/globals/missions")
 require("scripts/globals/helm")
 require("scripts/globals/zone")
+require("scripts/globals/campaign")
 -----------------------------------
 
 function onInitialize(zone)
@@ -14,6 +15,7 @@ function onInitialize(zone)
     GetMobByID(ID.mob.MYRADROSH):setRespawnTime(math.random(5400, 7200))
 
     tpz.helm.initZone(zone, tpz.helm.type.LOGGING)
+	tpz.campaign.initZone(zone)
 end
 
 function onZoneIn(player, prevZone)
@@ -37,7 +39,7 @@ end
 
 function onEventFinish(player, csid, option)
     if (csid == 7) then
-        player:completeMission(WOTG, tpz.mission.id.wotg.WHILE_THE_CAT_IS_AWAY)
-        player:addMission(WOTG, tpz.mission.id.wotg.A_TIMESWEPT_BUTTERFLY)
+        player:completeMission(tpz.mission.log_id.WOTG, tpz.mission.id.wotg.WHILE_THE_CAT_IS_AWAY)
+        player:addMission(tpz.mission.log_id.WOTG, tpz.mission.id.wotg.A_TIMESWEPT_BUTTERFLY)
     end
 end
