@@ -14,7 +14,7 @@ local ID = require("scripts/zones/Lower_Jeuno/IDs")
 -----------------------------------
 
 function onTrade(player, npc, trade)
-    local theRequiem = player:getQuestStatus(JEUNO, tpz.quest.id.jeuno.THE_REQUIEM)
+    local theRequiem = player:getQuestStatus(tpz.quest.log_id.JEUNO, tpz.quest.id.jeuno.THE_REQUIEM)
 
     -- THE REQUIEM (holy water)
     if (theRequiem == QUEST_ACCEPTED and player:getCharVar("TheRequiemCS") == 2 and trade:hasItemQty(4154, 1) and trade:getItemCount() == 1) then
@@ -23,9 +23,9 @@ function onTrade(player, npc, trade)
 end
 
 function onTrigger(player, npc)
-    local aMinstrelInDespair = player:getQuestStatus(JEUNO, tpz.quest.id.jeuno.A_MINSTREL_IN_DESPAIR)
-    local painfulMemory = player:getQuestStatus(JEUNO, tpz.quest.id.jeuno.PAINFUL_MEMORY)
-    local theRequiem = player:getQuestStatus(JEUNO, tpz.quest.id.jeuno.THE_REQUIEM)
+    local aMinstrelInDespair = player:getQuestStatus(tpz.quest.log_id.JEUNO, tpz.quest.id.jeuno.A_MINSTREL_IN_DESPAIR)
+    local painfulMemory = player:getQuestStatus(tpz.quest.log_id.JEUNO, tpz.quest.id.jeuno.PAINFUL_MEMORY)
+    local theRequiem = player:getQuestStatus(tpz.quest.log_id.JEUNO, tpz.quest.id.jeuno.THE_REQUIEM)
 
     -- THE OLD MONUMENT
     if (player:getCharVar("TheOldMonument_Event") == 1) then
@@ -77,7 +77,7 @@ function onEventFinish(player, csid, option)
     elseif (csid == 145 and option == 0) then
         player:setCharVar("TheRequiemCS", 1) -- player declines quest
     elseif ((csid == 145 or csid == 148) and option == 1) then
-        player:addQuest(JEUNO, tpz.quest.id.jeuno.THE_REQUIEM)
+        player:addQuest(tpz.quest.log_id.JEUNO, tpz.quest.id.jeuno.THE_REQUIEM)
         player:setCharVar("TheRequiemCS", 2)
     elseif (csid == 151) then
         player:setCharVar("TheRequiemCS", 3)
@@ -90,7 +90,7 @@ function onEventFinish(player, csid, option)
             player:addItem(14098)
             player:messageSpecial(ID.text.ITEM_OBTAINED, 14098) -- Choral Slippers
             player:addFame(JEUNO, 30)
-            player:completeQuest(JEUNO, tpz.quest.id.jeuno.THE_REQUIEM)
+            player:completeQuest(tpz.quest.log_id.JEUNO, tpz.quest.id.jeuno.THE_REQUIEM)
         end
     end
 end

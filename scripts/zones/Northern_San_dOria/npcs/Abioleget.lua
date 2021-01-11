@@ -12,9 +12,11 @@ require("scripts/globals/quests")
 -----------------------------------
 
 function onTrade(player, npc, trade)
+    local sermonQuest = player:getQuestStatus(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.THE_VICASQUE_S_SERMON)
+
     if (sermonQuest == QUEST_ACCEPTED) then
-        gil = trade:getGil()
-        count = trade:getItemCount()
+        local gil = trade:getGil()
+        local count = trade:getItemCount()
         if (gil == 70 and count == 1) then
             player:tradeComplete()
             player:startEvent(591)
@@ -23,7 +25,7 @@ function onTrade(player, npc, trade)
 end
 
 function onTrigger(player, npc)
-    sermonQuest = player:getQuestStatus(SANDORIA, tpz.quest.id.sandoria.THE_VICASQUE_S_SERMON)
+    local sermonQuest = player:getQuestStatus(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.THE_VICASQUE_S_SERMON)
 
     if (sermonQuest == QUEST_AVAILABLE) then
         player:startEvent(589)
@@ -53,10 +55,10 @@ function onEventFinish(player, csid, option)
             player:addFame(SANDORIA, 30)
             player:addTitle(tpz.title.THE_BENEVOLENT_ONE)
             player:setCharVar("sermonQuestVar", 0)
-            player:completeQuest(SANDORIA, tpz.quest.id.sandoria.THE_VICASQUE_S_SERMON )
+            player:completeQuest(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.THE_VICASQUE_S_SERMON )
         end
     elseif (csid == 589) then
-        player:addQuest(SANDORIA, tpz.quest.id.sandoria.THE_VICASQUE_S_SERMON )
+        player:addQuest(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.THE_VICASQUE_S_SERMON )
     elseif (csid == 591) then
         player:addItem(618)
         player:messageSpecial(ID.text.ITEM_OBTAINED, 618)

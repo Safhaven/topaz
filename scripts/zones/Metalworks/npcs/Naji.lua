@@ -16,13 +16,13 @@ local ID = require("scripts/zones/Metalworks/IDs");
 
 local TrustMemory = function(player)
     local memories = 0
-    if player:hasCompletedMission(BASTOK, tpz.mission.id.bastok.THE_EMISSARY) then
+    if player:hasCompletedMission(tpz.mission.log_id.BASTOK, tpz.mission.id.bastok.THE_EMISSARY) then
         memories = memories + 2
     end
-    if player:hasCompletedQuest(BASTOK, tpz.quest.id.bastok.THE_DOORMAN) then
+    if player:hasCompletedQuest(tpz.quest.log_id.BASTOK, tpz.quest.id.bastok.THE_DOORMAN) then
         memories = memories + 4
     end
-    if player:hasCompletedMission(TOAU, tpz.mission.id.toau.LIGHT_OF_JUDGMENT) then
+    if player:hasCompletedMission(tpz.mission.log_id.TOAU, tpz.mission.id.toau.LIGHT_OF_JUDGMENT) then
         memories = memories + 8
     end
     -- 16 - Chocobo racing
@@ -32,7 +32,7 @@ end
 
 function onTrade(player, npc, trade)
 
-    if (player:getQuestStatus(JEUNO, tpz.quest.id.jeuno.RIDING_ON_THE_CLOUDS) == QUEST_ACCEPTED and
+    if (player:getQuestStatus(tpz.quest.log_id.JEUNO, tpz.quest.id.jeuno.RIDING_ON_THE_CLOUDS) == QUEST_ACCEPTED and
         player:getCharVar("ridingOnTheClouds_2") == 6) then
         if (trade:hasItemQty(1127, 1) and trade:getItemCount() == 1) then -- Trade Kindred seal
             player:setCharVar("ridingOnTheClouds_2", 0)
@@ -45,9 +45,9 @@ function onTrade(player, npc, trade)
 end
 
 function onTrigger(player, npc)
-    local TrustSandoria = player:getQuestStatus(SANDORIA, tpz.quest.id.sandoria.TRUST_SANDORIA)
-    local TrustBastok = player:getQuestStatus(BASTOK, tpz.quest.id.bastok.TRUST_BASTOK)
-    local TrustWindurst = player:getQuestStatus(WINDURST, tpz.quest.id.windurst.TRUST_WINDURST)
+    local TrustSandoria = player:getQuestStatus(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.TRUST_SANDORIA)
+    local TrustBastok = player:getQuestStatus(tpz.quest.log_id.BASTOK, tpz.quest.id.bastok.TRUST_BASTOK)
+    local TrustWindurst = player:getQuestStatus(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.TRUST_WINDURST)
     local BastokFirstTrust = player:getCharVar("BastokFirstTrust")
     local NajiTrustChatFlag = player:getLocalVar("NajiTrustChatFlag")
     local Rank3 = player:getRank() >= 3 and 1 or 0
@@ -122,13 +122,13 @@ function onEventFinish(player, csid, option)
             player:delKeyItem(tpz.ki.YASINS_SWORD)
             player:setCharVar("theDoormanCS", 0)
             player:addFame(BASTOK, 30)
-            player:completeQuest(BASTOK, tpz.quest.id.bastok.THE_DOORMAN)
+            player:completeQuest(tpz.quest.log_id.BASTOK, tpz.quest.id.bastok.THE_DOORMAN)
         else
             player:messageSpecial(ID.text.ITEM_CANNOT_BE_OBTAINED, 16678) -- Razor Axe
         end
     elseif (csid == 710) then
         player:delKeyItem(tpz.ki.ZERUHN_REPORT)
-        player:completeMission(BASTOK, tpz.mission.id.bastok.THE_ZERUHN_REPORT)
+        player:completeMission(tpz.mission.log_id.BASTOK, tpz.mission.id.bastok.THE_ZERUHN_REPORT)
     elseif (csid == 713) then
         player:addKeyItem(tpz.ki.LETTER_TO_THE_CONSULS_BASTOK)
         player:messageSpecial(ID.text.KEYITEM_OBTAINED, tpz.ki.LETTER_TO_THE_CONSULS_BASTOK)

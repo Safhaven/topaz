@@ -5,9 +5,11 @@
 -----------------------------------
 local ID = require("scripts/zones/Vunkerl_Inlet_[S]/IDs")
 require("scripts/globals/status")
+require("scripts/globals/campaign")
 -----------------------------------
 
 function onInitialize(zone)
+	tpz.campaign.initZone(zone)
 end
 
 function onZoneIn(player, prevZone)

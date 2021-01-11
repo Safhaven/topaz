@@ -18,8 +18,8 @@ end
 
 function onTrigger(player, npc)
 
-    local theDoorman = player:getQuestStatus(BASTOK, tpz.quest.id.bastok.THE_DOORMAN)
-    local theTalekeeperTruth = player:getQuestStatus(BASTOK, tpz.quest.id.bastok.THE_TALEKEEPER_S_TRUTH)
+    local theDoorman = player:getQuestStatus(tpz.quest.log_id.BASTOK, tpz.quest.id.bastok.THE_DOORMAN)
+    local theTalekeeperTruth = player:getQuestStatus(tpz.quest.log_id.BASTOK, tpz.quest.id.bastok.THE_TALEKEEPER_S_TRUTH)
 
     if (theDoorman == QUEST_AVAILABLE and player:getMainJob() == tpz.job.WAR and player:getMainLvl() >= 40) then
         player:startEvent(151) -- Start Quests "The doorman"
@@ -41,7 +41,7 @@ end
 function onEventFinish(player, csid, option)
 
     if (csid == 151) then
-        player:addQuest(BASTOK, tpz.quest.id.bastok.THE_DOORMAN)
+        player:addQuest(tpz.quest.log_id.BASTOK, tpz.quest.id.bastok.THE_DOORMAN)
         player:setCharVar("theDoormanCS", 1)
     elseif (csid == 152) then
         player:setCharVar("theDoorman_time", VanadielDayOfTheYear())

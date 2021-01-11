@@ -27,9 +27,9 @@ function onTrigger(player, npc)
         return (set % (2*flag) >= flag)
     end
 
-    local cryingOverOnions  = player:getQuestStatus(WINDURST, tpz.quest.id.windurst.CRYING_OVER_ONIONS)
-    local wildCard          = player:getQuestStatus(WINDURST, tpz.quest.id.windurst.WILD_CARD)
-    local hatInHand         = player:getQuestStatus(WINDURST, tpz.quest.id.windurst.HAT_IN_HAND)
+    local cryingOverOnions  = player:getQuestStatus(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.CRYING_OVER_ONIONS)
+    local wildCard          = player:getQuestStatus(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.WILD_CARD)
+    local hatInHand         = player:getQuestStatus(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.HAT_IN_HAND)
 
     if
         player:getCurrentMission(COP) == tpz.mission.id.cop.THE_ROAD_FORKS and
@@ -93,7 +93,7 @@ function onEventFinish(player, csid, option)
 
     -- "Wild Card"
     elseif csid == 780 then
-        player:addQuest(WINDURST, tpz.quest.id.windurst.WILD_CARD)
+        player:addQuest(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.WILD_CARD)
     elseif
         csid == 782 and
         npcUtil.completeQuest(player, WINDURST, tpz.quest.id.windurst.WILD_CARD, {

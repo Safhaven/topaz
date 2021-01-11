@@ -22,7 +22,8 @@
 #ifndef _LUAZONE_H
 #define _LUAZONE_H
 
-#include "../../common/cbasetypes.h"
+#include "common/cbasetypes.h"
+#include "../campaign_system.h"
 #include "luautils.h"
 
 class CZone;
@@ -31,10 +32,6 @@ class CLuaZone
     CZone* m_pLuaZone;
 
 public:
-    static const char                  className[];
-    static Lunar<CLuaZone>::Register_t methods[];
-
-    CLuaZone(lua_State*);
     CLuaZone(CZone*);
 
     CZone* GetZone() const
@@ -42,15 +39,54 @@ public:
         return m_pLuaZone;
     }
 
-    int32 registerRegion(lua_State*);
-    int32 levelRestriction(lua_State*);
-    int32 getPlayers(lua_State*);
-    int32 getID(lua_State*);
-    int32 getRegionID(lua_State*);
-    int32 getType(lua_State*);
-    int32 getBattlefieldByInitiator(lua_State*);
-    int32 battlefieldsFull(lua_State*);
-    int32 getWeather(lua_State*);
+    auto        getLocalVar(const char* varable);
+    void        setLocalVar(const char* varable, uint32 value);
+    void        registerRegion(uint32 RegionID, float x1, float y1, float z1, float x2, float y2, float z2);
+    sol::object levelRestriction();
+    auto        getPlayers() -> sol::table;
+    ZONEID      getID();
+    std::string getName();
+    REGION_TYPE getRegionID();
+    ZONE_TYPE   getType();
+    auto        getBattlefieldByInitiator(uint32 charID) -> std::optional<CLuaBattlefield>;
+    bool        battlefieldsFull(int battlefieldId);
+    WEATHER     getWeather();
+
+    auto        getSoloBattleMusic();
+    auto        getPartyBattleMusic();
+    auto        getBackgroundMusicDay();
+    auto        getBackgroundMusicNight();
+    auto        getCampaignBattleStatus();
+    auto        getCampaignZoneControl();
+    auto        getCampaignFortification();
+    auto        getCampaignResource();
+    auto        getCampaignMaxFortification();
+    auto        getCampaignMaxResource();
+    auto        getCampaignInfluence(uint8 army);
+    auto        getCampaignReconnaissance(uint8 army);
+    auto        getCampaignMorale(uint8 army);
+    auto        getCampaignProsperity(uint8 army);
+    auto        getCampaignHeroism();
+    auto        getCampaignUnionCount(uint8 unionId);
+
+    void        setSoloBattleMusic(uint8 musicId);
+    void        setPartyBattleMusic(uint8 musicId);
+    void        setBackgroundMusicDay(uint8 musicId);
+    void        setBackgroundMusicNight(uint8 musicId);
+    void        setCampaignBattleStatus(uint8 flag);
+    void        setCampaignZoneControl(uint8 nation);
+    void        setCampaignFortification(uint16 amount);
+    void        setCampaignResource(uint16 amount);
+    void        setCampaignMaxFortification(uint16 amount);
+    void        setCampaignMaxResource(uint16 amount);
+    void        setCampaignInfluence(uint8 army, uint16 amount);
+    void        setCampaignReconnaissance(uint8 army, uint16 amount);
+    void        setCampaignMorale(uint8 army, uint16 amount);
+    void        setCampaignProsperity(uint8 army, uint16 amount);
+    void        setCampaignHeroism(uint16 amount);
+    void        setCampaignUnionCount(uint8 unionid, uint16 amount);
+
+    static void Register();
 };
 
 #endif

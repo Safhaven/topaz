@@ -12,7 +12,7 @@ local ID = require("scripts/zones/Port_San_dOria/IDs")
 -----------------------------------
 
 function onTrade(player, npc, trade)
-    if (player:getQuestStatus(SANDORIA, tpz.quest.id.sandoria.CHASING_QUOTAS) == QUEST_ACCEPTED and player:getCharVar("ChasingQuotas_Progress") == 0 and
+    if (player:getQuestStatus(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.CHASING_QUOTAS) == QUEST_ACCEPTED and player:getCharVar("ChasingQuotas_Progress") == 0 and
         trade:getItemCount() == 1 and trade:hasItemQty(12494, 1) and trade:getGil() == 0) then -- Trading gold hairpin only
             player:tradeComplete()
             player:startEvent(17)
@@ -20,13 +20,13 @@ function onTrade(player, npc, trade)
 end
 
 function onTrigger(player, npc)
-    local Quotas_Status = player:getQuestStatus(SANDORIA, tpz.quest.id.sandoria.CHASING_QUOTAS)
+    local Quotas_Status = player:getQuestStatus(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.CHASING_QUOTAS)
     local Quotas_Progress = player:getCharVar("ChasingQuotas_Progress")
     local Quotas_No = player:getCharVar("ChasingQuotas_No")
-    local Stalker_Status = player:getQuestStatus(SANDORIA, tpz.quest.id.sandoria.KNIGHT_STALKER)
+    local Stalker_Status = player:getQuestStatus(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.KNIGHT_STALKER)
     local Stalker_Progress = player:getCharVar("KnightStalker_Progress")
 
-    if (player:getMainLvl() >= ADVANCED_JOB_LEVEL and player:getQuestStatus(SANDORIA, tpz.quest.id.sandoria.THE_HOLY_CREST) == QUEST_AVAILABLE) then
+    if (player:getMainLvl() >= ADVANCED_JOB_LEVEL and player:getQuestStatus(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.THE_HOLY_CREST) == QUEST_AVAILABLE) then
         player:startEvent(24)
 
     -- Chasing Quotas (DRG AF2)
@@ -87,11 +87,11 @@ function onEventFinish(player, csid, option)
         if option == 0 then
             player:setCharVar("ChasingQuotas_No", 1)
         else
-            player:addQuest(SANDORIA, tpz.quest.id.sandoria.CHASING_QUOTAS)
+            player:addQuest(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.CHASING_QUOTAS)
         end
     elseif (csid == 14 and option == 1) then
         player:setCharVar("ChasingQuotas_No", 0)
-        player:addQuest(SANDORIA, tpz.quest.id.sandoria.CHASING_QUOTAS)
+        player:addQuest(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.CHASING_QUOTAS)
     elseif (csid == 17) then
         player:setCharVar("ChasingQuotas_Progress", 1)
         player:setCharVar("ChasingQuotas_date", os.time() + 60)
@@ -106,7 +106,7 @@ function onEventFinish(player, csid, option)
             player:addItem(14227)
             player:messageSpecial(ID.text.ITEM_OBTAINED, 14227) -- Drachen Brais
             player:addFame(SANDORIA, 40)
-            player:completeQuest(SANDORIA, tpz.quest.id.sandoria.CHASING_QUOTAS)
+            player:completeQuest(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.CHASING_QUOTAS)
             player:setCharVar("ChasingQuotas_Progress", 0)
         end
 

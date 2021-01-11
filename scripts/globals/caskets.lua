@@ -115,7 +115,7 @@ local function timeElapsedCheck(npc)
     if npc:getLocalVar("[caskets]SPAWNTIME") then
         spawnTime = npc:getLocalVar("[caskets]SPAWNTIME")
     end
-    
+
     local lastSpawned = os.time() - spawnTime
 
     timeTable = convertTime(lastSpawned)
@@ -192,7 +192,7 @@ local function sendChestDropMessage(player)
 
     party = player:getAlliance()
 
-    for _, member in ipairs(party) do
+    for _, member in pairs(party) do
         if member:getZoneID() == player:getZoneID() then
             member:messageSpecial(dropMessage , 0)
         end
@@ -203,7 +203,7 @@ end
 -- Desc: Despawn a chest and reset its local var's
 ----------------------------------------------------------------------------------
 local function removeChest(npc)
-    npc:AnimationSub(0)
+    npc:setAnimationSub(0)
     npc:setStatus(tpz.status.DISAPPEAR)
     npc:setLocalVar("[caskets]SPAWNSTATUS", casketInfo.spawnStatus.DESPAWNED)
 end
@@ -235,7 +235,7 @@ local function setCasketData(player, x, y, z, r, npc, partyID, mobLvl)
     if npc ~= nil then
         npc:resetLocalVars()
         npc:setAnimation(0)
-        npc:AnimationSub(4)
+        npc:setAnimationSub(4)
         -------------------------------------
         -- Chest data
         -------------------------------------
@@ -322,7 +322,8 @@ local function messageChest(player, messageString, param1, param2, param3, param
         msg = ID.text.PLAYER_OBTAINS_TEMP_ITEM
     end
 
-    for _, member in pairs(player:getAlliance()) do
+    local alliance = player:getAlliance()
+    for _, member in pairs(alliance) do
         if member:getZoneID() == player:getZoneID() then
             member:messageName(msg, player, param1, param2, param3, param4, nil)
         end
@@ -684,7 +685,7 @@ tpz.caskets.onTrigger = function(player, npc)
     -- Chest Unlocked
     -------------------------------------------------
         if npc:getLocalVar("[caskets]SPAWNSTATUS") == casketInfo.spawnStatus.SPAWNED_CLOSED then      -- is the chest shut?, then open it.
-            npc:AnimationSub(1)
+            npc:setAnimationSub(1)
             npc:setLocalVar("[caskets]SPAWNSTATUS", casketInfo.spawnStatus.SPAWNED_OPEN)
         end
 
@@ -937,7 +938,7 @@ tpz.caskets.onEventFinish = function(player, csid, option, npc)
                         npc:setLocalVar("[caskets]LOCKED", 0)
 
                         if npc:getLocalVar("[caskets]SPAWNSTATUS") == casketInfo.spawnStatus.SPAWNED_CLOSED then  -- is the chest shut?, then open it.
-                           npc:AnimationSub(1)
+                           npc:setAnimationSub(1)
                            npc:setLocalVar("[caskets]SPAWNSTATUS", casketInfo.spawnStatus.SPAWNED_OPEN)
                            -- RoE Timed Record #4019 - Crack Tresure Caskets
                            if player:getEminenceProgress(4019) then

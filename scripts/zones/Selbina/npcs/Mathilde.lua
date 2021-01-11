@@ -12,7 +12,7 @@ require("scripts/globals/quests")
 
 function onTrade(player, npc, trade)
     if
-        player:getQuestStatus(JEUNO, tpz.quest.id.jeuno.RIDING_ON_THE_CLOUDS) == QUEST_ACCEPTED and
+        player:getQuestStatus(tpz.quest.log_id.JEUNO, tpz.quest.id.jeuno.RIDING_ON_THE_CLOUDS) == QUEST_ACCEPTED and
         player:getCharVar("ridingOnTheClouds_3") == 1 and
         npcUtil.tradeHas(trade, 1127)
     then
@@ -37,7 +37,7 @@ end
 function onEventFinish(player, csid, option)
     if csid == 10005 then
         player:setCharVar("PromathiaStatus", 0)
-        player:completeMission(COP, tpz.mission.id.cop.MORE_QUESTIONS_THAN_ANSWERS)
-        player:addMission(COP, tpz.mission.id.cop.ONE_TO_BE_FEARED)
+        player:completeMission(tpz.mission.log_id.COP, tpz.mission.id.cop.MORE_QUESTIONS_THAN_ANSWERS)
+        player:addMission(tpz.mission.log_id.COP, tpz.mission.id.cop.ONE_TO_BE_FEARED)
     end
 end

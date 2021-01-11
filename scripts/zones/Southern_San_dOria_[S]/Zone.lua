@@ -9,25 +9,27 @@ require("scripts/globals/settings")
 require("scripts/globals/chocobo")
 require("scripts/globals/quests")
 require("scripts/globals/zone")
+require("scripts/globals/campaign")
 -----------------------------------
 
 function onInitialize(zone)
     tpz.chocobo.initZone(zone)
+	tpz.campaign.initZone(zone)
 end
 
 function onZoneIn(player, prevZone)
     local cs = -1
     if prevZone == tpz.zone.EAST_RONFAURE_S then
-        if player:getQuestStatus(CRYSTAL_WAR, tpz.quest.id.crystalWar.KNOT_QUITE_THERE) == QUEST_ACCEPTED and player:getCharVar("KnotQuiteThere") == 2 then
+        if player:getQuestStatus(tpz.quest.log_id.CRYSTAL_WAR, tpz.quest.id.crystalWar.KNOT_QUITE_THERE) == QUEST_ACCEPTED and player:getCharVar("KnotQuiteThere") == 2 then
             cs = 62
-        elseif player:getQuestStatus(CRYSTAL_WAR, tpz.quest.id.crystalWar.DOWNWARD_HELIX) == QUEST_ACCEPTED and player:getCharVar("DownwardHelix") == 0 then
+        elseif player:getQuestStatus(tpz.quest.log_id.CRYSTAL_WAR, tpz.quest.id.crystalWar.DOWNWARD_HELIX) == QUEST_ACCEPTED and player:getCharVar("DownwardHelix") == 0 then
             cs = 65
         elseif
             player:getCurrentMission(WOTG) == tpz.mission.id.wotg.CAIT_SITH and
             (
-                player:getQuestStatus(CRYSTAL_WAR, tpz.quest.id.crystalWar.WRATH_OF_THE_GRIFFON) == QUEST_COMPLETED or
-                player:getQuestStatus(CRYSTAL_WAR, tpz.quest.id.crystalWar.A_MANIFEST_PROBLEM) == QUEST_COMPLETED or
-                player:getQuestStatus(CRYSTAL_WAR, tpz.quest.id.crystalWar.BURDEN_OF_SUSPICION) == QUEST_COMPLETED
+                player:getQuestStatus(tpz.quest.log_id.CRYSTAL_WAR, tpz.quest.id.crystalWar.WRATH_OF_THE_GRIFFON) == QUEST_COMPLETED or
+                player:getQuestStatus(tpz.quest.log_id.CRYSTAL_WAR, tpz.quest.id.crystalWar.A_MANIFEST_PROBLEM) == QUEST_COMPLETED or
+                player:getQuestStatus(tpz.quest.log_id.CRYSTAL_WAR, tpz.quest.id.crystalWar.BURDEN_OF_SUSPICION) == QUEST_COMPLETED
             )
         then
             cs = 67
@@ -52,7 +54,7 @@ function onEventFinish(player, csid, option)
     elseif csid == 65 then
         player:setCharVar("DownwardHelix", 1)
     elseif csid == 67 then
-        player:completeMission(WOTG, tpz.mission.id.wotg.CAIT_SITH)
-        player:addMission(WOTG, tpz.mission.id.wotg.THE_QUEEN_OF_THE_DANCE)
+        player:completeMission(tpz.mission.log_id.WOTG, tpz.mission.id.wotg.CAIT_SITH)
+        player:addMission(tpz.mission.log_id.WOTG, tpz.mission.id.wotg.THE_QUEEN_OF_THE_DANCE)
     end
 end

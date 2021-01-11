@@ -13,7 +13,7 @@ local ID = require("scripts/zones/Windurst_Waters/IDs")
 
 function onTrade(player, npc, trade)
     if npcUtil.tradeHasExactly(trade, { 1696, 1697, 1698 }) -- Magicked Steel Ingot, Spruce Lumber, Extra-fine File
-        and player:getQuestStatus(WINDURST, tpz.quest.id.windurst.TUNING_IN) == QUEST_ACCEPTED
+        and player:getQuestStatus(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.TUNING_IN) == QUEST_ACCEPTED
     then
         player:startEvent(886)
     end
@@ -21,11 +21,11 @@ end
 
 
 function onTrigger(player, npc)
-    local moonlitPath = player:getQuestStatus(WINDURST, tpz.quest.id.windurst.THE_MOONLIT_PATH)
+    local moonlitPath = player:getQuestStatus(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.THE_MOONLIT_PATH)
     local realday = tonumber(os.date("%j")) -- %M for next minute, %j for next day
     local MissionStatus = player:getCharVar("MissionStatus")
-    local tuningIn = player:getQuestStatus(WINDURST, tpz.quest.id.windurst.TUNING_IN)
-    local tuningOut = player:getQuestStatus(WINDURST, tpz.quest.id.windurst.TUNING_OUT)
+    local tuningIn = player:getQuestStatus(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.TUNING_IN)
+    local tuningOut = player:getQuestStatus(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.TUNING_OUT)
 
     -- Check if we are on Windurst Mission 1-3 and haven't already delivered both offerings.
     if (player:getCurrentMission(WINDURST) == tpz.mission.id.windurst.THE_PRICE_OF_PEACE and MissionStatus < 3) then
@@ -44,13 +44,13 @@ function onTrigger(player, npc)
     elseif (player:getCurrentMission(WINDURST) == tpz.mission.id.windurst.AWAKENING_OF_THE_GODS and player:getCharVar("MissionStatus") == 5 and player:hasKeyItem(tpz.ki.BOOK_OF_THE_GODS)) then
         player:startEvent(742)
     ---------------------------
-    elseif (player:getQuestStatus(WINDURST, tpz.quest.id.windurst.FOOD_FOR_THOUGHT) == QUEST_ACCEPTED) then
+    elseif (player:getQuestStatus(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.FOOD_FOR_THOUGHT) == QUEST_ACCEPTED) then
         player:startEvent(311)
 
     -- Tuning In
     elseif tuningIn == QUEST_AVAILABLE
         and player:getFameLevel(WINDURST) >= 4
-        and (player:getCurrentMission(COP) >= tpz.mission.id.cop.DISTANT_BELIEFS or player:hasCompletedMission(COP, tpz.mission.id.cop.THE_LAST_VERSE))
+        and (player:getCurrentMission(COP) >= tpz.mission.id.cop.DISTANT_BELIEFS or player:hasCompletedMission(tpz.mission.log_id.COP, tpz.mission.id.cop.THE_LAST_VERSE))
     then
         player:startEvent(884, 0, 1696, 1697, 1698) -- Magicked Steel Ingot, Spruce Lumber, Extra-fine File
 
@@ -140,7 +140,7 @@ function onEventFinish(player, csid, option)
 
     -- Moonlit Path and Other Fenrir Stuff
     elseif (csid == 842 and option == 2) then
-        player:addQuest(WINDURST, tpz.quest.id.windurst.THE_MOONLIT_PATH)
+        player:addQuest(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.THE_MOONLIT_PATH)
     elseif (csid == 844) then
         player:addKeyItem(tpz.ki.MOON_BAUBLE)
         player:messageSpecial(ID.text.KEYITEM_OBTAINED, tpz.ki.MOON_BAUBLE)
@@ -150,12 +150,12 @@ function onEventFinish(player, csid, option)
         player:delKeyItem(tpz.ki.WHISPER_OF_GALES)
         player:delKeyItem(tpz.ki.WHISPER_OF_FROST)
         player:delKeyItem(tpz.ki.WHISPER_OF_STORMS)
-        player:delQuest(OUTLANDS, tpz.quest.id.outlands.TRIAL_BY_FIRE)
-        player:delQuest(BASTOK, tpz.quest.id.bastok.TRIAL_BY_EARTH)
-        player:delQuest(OUTLANDS, tpz.quest.id.outlands.TRIAL_BY_WATER)
-        player:delQuest(OUTLANDS, tpz.quest.id.outlands.TRIAL_BY_WIND)
-        player:delQuest(SANDORIA, tpz.quest.id.sandoria.TRIAL_BY_ICE)
-        player:delQuest(OTHER_AREAS_LOG, tpz.quest.id.otherAreas.TRIAL_BY_LIGHTNING)
+        player:delQuest(tpz.quest.log_id.OUTLANDS, tpz.quest.id.outlands.TRIAL_BY_FIRE)
+        player:delQuest(tpz.quest.log_id.BASTOK, tpz.quest.id.bastok.TRIAL_BY_EARTH)
+        player:delQuest(tpz.quest.log_id.OUTLANDS, tpz.quest.id.outlands.TRIAL_BY_WATER)
+        player:delQuest(tpz.quest.log_id.OUTLANDS, tpz.quest.id.outlands.TRIAL_BY_WIND)
+        player:delQuest(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.TRIAL_BY_ICE)
+        player:delQuest(tpz.quest.log_id.OTHER_AREAS, tpz.quest.id.otherAreas.TRIAL_BY_LIGHTNING)
     elseif (csid == 846) then -- Turn-in event
         local reward = 0
         if (option == 1) then reward = 18165 -- Fenrir's Stone
@@ -179,7 +179,7 @@ function onEventFinish(player, csid, option)
             player:delKeyItem(tpz.ki.WHISPER_OF_THE_MOON)
             player:setCharVar("MoonlitPath_date", os.date("%j")) -- %M for next minute, %j for next day
             player:addFame(WINDURST, 30)
-            player:completeQuest(WINDURST, tpz.quest.id.windurst.THE_MOONLIT_PATH)
+            player:completeQuest(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.THE_MOONLIT_PATH)
         end
 
         if (player:getFreeSlotsCount() == 0 and reward ~= 0) then
@@ -189,7 +189,7 @@ function onEventFinish(player, csid, option)
             player:messageSpecial(ID.text.ITEM_OBTAINED, reward)
         end
 
-        if (player:getNation() == tpz.nation.WINDURST and player:getRank() == 10 and player:getQuestStatus(WINDURST, tpz.quest.id.windurst.THE_PROMISE) == QUEST_COMPLETED) then
+        if (player:getNation() == tpz.nation.WINDURST and player:getRank() == 10 and player:getQuestStatus(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.THE_PROMISE) == QUEST_COMPLETED) then
             player:addKeyItem(tpz.ki.DARK_MANA_ORB)
             player:messageSpecial(ID.text.KEYITEM_OBTAINED, tpz.ki.DARK_MANA_ORB)
         end
@@ -225,7 +225,7 @@ function onEventFinish(player, csid, option)
             player:messageSpecial(ID.text.ITEM_OBTAINED, reward)
         end
 
-        if (player:getNation() == tpz.nation.WINDURST and player:getRank() == 10 and player:getQuestStatus(WINDURST, tpz.quest.id.windurst.THE_PROMISE) == QUEST_COMPLETED) then
+        if (player:getNation() == tpz.nation.WINDURST and player:getRank() == 10 and player:getQuestStatus(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.THE_PROMISE) == QUEST_COMPLETED) then
             player:addKeyItem(tpz.ki.DARK_MANA_ORB)
             player:messageSpecial(ID.text.KEYITEM_OBTAINED, tpz.ki.DARK_MANA_ORB)
         end
@@ -239,7 +239,7 @@ function onEventFinish(player, csid, option)
 
     -- Tuning In
     elseif csid == 884 then
-        player:addQuest(WINDURST, tpz.quest.id.windurst.TUNING_IN)
+        player:addQuest(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.TUNING_IN)
 
     elseif csid == 886 and npcUtil.completeQuest(player, WINDURST, tpz.quest.id.windurst.TUNING_IN, {
         gil = 4000,
@@ -250,7 +250,7 @@ function onEventFinish(player, csid, option)
     -- Tuning Out
     elseif csid == 888 then
         player:setCharVar("TuningOut_Progress", 1)
-        player:addQuest(WINDURST, tpz.quest.id.windurst.TUNING_OUT)
+        player:addQuest(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.TUNING_OUT)
 
     elseif csid == 897 and npcUtil.completeQuest(player, WINDURST, tpz.quest.id.windurst.TUNING_OUT, {
         item = 15180, -- Cache-Nez

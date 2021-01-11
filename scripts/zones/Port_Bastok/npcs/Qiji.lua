@@ -21,7 +21,7 @@ end
 
 function onTrigger(player, npc)
 
-    local ForevertoHold = player:getQuestStatus(BASTOK, tpz.quest.id.bastok.FOREVER_TO_HOLD)
+    local ForevertoHold = player:getQuestStatus(tpz.quest.log_id.BASTOK, tpz.quest.id.bastok.FOREVER_TO_HOLD)
 
     if (player:getFameLevel(BASTOK) >= 2 and ForevertoHold == QUEST_AVAILABLE) then
         player:startEvent(123)
@@ -39,14 +39,14 @@ end
 function onEventFinish(player, csid, option)
 
     if (csid == 123) then
-        player:addQuest(BASTOK, tpz.quest.id.bastok.FOREVER_TO_HOLD)
+        player:addQuest(tpz.quest.log_id.BASTOK, tpz.quest.id.bastok.FOREVER_TO_HOLD)
         player:setCharVar("ForevertoHold_Event", 1)
     elseif (csid == 126) then
         player:addTitle(tpz.title.QIJIS_FRIEND)
         player:addGil(GIL_RATE*300)
         player:messageSpecial(ID.text.GIL_OBTAINED, GIL_RATE*300)
         player:addFame(BASTOK, 80)
-        player:completeQuest(BASTOK, tpz.quest.id.bastok.FOREVER_TO_HOLD)
+        player:completeQuest(tpz.quest.log_id.BASTOK, tpz.quest.id.bastok.FOREVER_TO_HOLD)
     end
 
 end

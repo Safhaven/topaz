@@ -14,7 +14,7 @@ function onTrade(player, npc, trade)
 end
 
 function onTrigger(player, npc)
-    local lostInTranslocation = player:getQuestStatus(CRYSTAL_WAR, tpz.quest.id.crystalWar.LOST_IN_TRANSLOCATION)
+    local lostInTranslocation = player:getQuestStatus(tpz.quest.log_id.CRYSTAL_WAR, tpz.quest.id.crystalWar.LOST_IN_TRANSLOCATION)
     local leftMapPiece = player:hasKeyItem(tpz.ki.LEFT_MAP_PIECE)
     local middleMapPiece = player:hasKeyItem(tpz.ki.MIDDLE_MAP_PIECE)
     local rightMapPiece = player:hasKeyItem(tpz.ki.RIGHT_MAP_PIECE)
@@ -58,6 +58,6 @@ function onEventFinish(player, csid, option)
     elseif csid == 105 then
         player:setCharVar("lostInTranslocationCS", 1)
     elseif csid == 103 then
-        player:addQuest(CRYSTAL_WAR, tpz.quest.id.crystalWar.LOST_IN_TRANSLOCATION)
+        player:addQuest(tpz.quest.log_id.CRYSTAL_WAR, tpz.quest.id.crystalWar.LOST_IN_TRANSLOCATION)
     end
 end

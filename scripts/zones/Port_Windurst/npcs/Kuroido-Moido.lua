@@ -26,9 +26,9 @@ end
 
 function onTrigger(player, npc)
     local wsQuestEvent = tpz.wsquest.getTriggerEvent(wsQuest, player)
-    local makingAmends = player:getQuestStatus(WINDURST, tpz.quest.id.windurst.MAKING_AMENDS) --First quest in series
-    local makingAmens = player:getQuestStatus(WINDURST, tpz.quest.id.windurst.MAKING_AMENS) --Second quest in series
-    local wonderWands = player:getQuestStatus(WINDURST, tpz.quest.id.windurst.WONDER_WANDS) --Third and final quest in series
+    local makingAmends = player:getQuestStatus(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.MAKING_AMENDS) --First quest in series
+    local makingAmens = player:getQuestStatus(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.MAKING_AMENS) --Second quest in series
+    local wonderWands = player:getQuestStatus(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.WONDER_WANDS) --Third and final quest in series
     local pfame = player:getFameLevel(WINDURST)
     local needToZone = player:needToZone()
     local brokenWand = player:hasKeyItem(tpz.ki.BROKEN_WAND)
@@ -82,7 +82,7 @@ end
 
 function onEventFinish(player, csid, option)
     if (csid == 280) then
-        player:addQuest(WINDURST, tpz.quest.id.windurst.MAKING_AMENS)
+        player:addQuest(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.MAKING_AMENS)
     elseif (csid == 284) then
         player:needToZone(true)
         player:delKeyItem(tpz.ki.BROKEN_WAND)
@@ -90,7 +90,7 @@ function onEventFinish(player, csid, option)
         player:addGil(GIL_RATE*6000)
         player:messageSpecial(ID.text.GIL_OBTAINED, GIL_RATE*6000)
         player:addFame(WINDURST, 150)
-        player:completeQuest(WINDURST, tpz.quest.id.windurst.MAKING_AMENS)
+        player:completeQuest(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.MAKING_AMENS)
     else
         tpz.wsquest.handleEventFinish(wsQuest, player, csid, option, ID.text.BLACK_HALO_LEARNED)
     end

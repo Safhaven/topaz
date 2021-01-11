@@ -30,6 +30,7 @@
 #include <map>
 
 #include "battlefield_handler.h"
+#include "campaign_handler.h"
 #include "region.h"
 #include "vana_time.h"
 
@@ -514,6 +515,7 @@ class CBattleEntity;
 class CTrustEntity;
 class CTreasurePool;
 class CZoneEntities;
+//class CCampaignHandler;
 
 typedef std::list<CRegion*>    regionList_t;
 typedef std::list<zoneLine_t*> zoneLineList_t;
@@ -543,6 +545,9 @@ public:
     uint8          GetBackgroundMusicNight() const;
     zoneLine_t*    GetZoneLine(uint32 zoneLineID);
 
+    uint32 GetLocalVar(const char* var);
+    void SetLocalVar(const char* var, uint32 val);
+
     virtual CCharEntity* GetCharByName(int8* name); // finds the player if exists in zone
     virtual CCharEntity* GetCharByID(uint32 id);
     // Gets an entity - ignores instances (use CBaseEntity->GetEntity if possible)
@@ -552,6 +557,11 @@ public:
     bool CanUseMisc(uint16 misc) const;
     void SetWeather(WEATHER weatherCondition);
     void UpdateWeather();
+
+    void SetSoloBattleMusic(uint8 music);
+    void SetPartyBattleMusic(uint8 music);
+    void SetBackgroundMusicDay(uint8 music);
+    void SetBackgroundMusicNight(uint8 music);
 
     virtual void SpawnPCs(CCharEntity* PChar);       // отображаем персонажей в зоне
     virtual void SpawnMOBs(CCharEntity* PChar);      // отображаем MOBs в зоне
@@ -601,6 +611,7 @@ public:
     virtual ~CZone();
 
     CBattlefieldHandler* m_BattlefieldHandler; // BCNM Instances in this zone
+    CCampaignHandler*    m_CampaignHandler;    // Wotg Campaign information for this zone
 
     CNavMesh* m_navMesh; // zones navmesh for finding paths
 
@@ -625,6 +636,7 @@ private:
 
     regionList_t   m_regionList;   // список активных областей зоны
     zoneLineList_t m_zoneLineList; // список всех доступных zonelines для зоны
+    std::map<std::string, uint32> m_LocalVars;
 
     void LoadZoneLines();    // список zonelines (можно было бы заменить этот метод методом InsertZoneLine)
     void LoadZoneWeather();  // погода

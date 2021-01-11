@@ -9,7 +9,7 @@ require("scripts/globals/quests")
 -----------------------------------
 
 function onTrade(player, npc, trade)
-    local flowerChild = player:getQuestStatus(WINDURST, tpz.quest.id.windurst.FLOWER_CHILD)
+    local flowerChild = player:getQuestStatus(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.FLOWER_CHILD)
     local itemQuality = 0
 
     if trade:getItemCount() == 1 and trade:getGil() == 0 then
@@ -70,12 +70,12 @@ end
 function onEventFinish(player, csid, option)
     if csid == 10000 and option == 3002 then
         player:tradeComplete()
-        player:completeQuest(WINDURST, tpz.quest.id.windurst.FLOWER_CHILD)
+        player:completeQuest(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.FLOWER_CHILD)
         player:addFame(WINDURST, 120)
-        player:moghouseFlag(4)
+        player:setMoghouseFlag(4)
         player:messageSpecial(ID.text.MOGHOUSE_EXIT)
     elseif csid == 10000 and option == 1 then
         player:tradeComplete()
-        player:addQuest(WINDURST, tpz.quest.id.windurst.FLOWER_CHILD)
+        player:addQuest(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.FLOWER_CHILD)
     end
 end

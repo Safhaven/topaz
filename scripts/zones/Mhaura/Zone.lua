@@ -17,9 +17,9 @@ function onGameHour(zone)
 
     -- Next ferry is Al Zhabi for higher values.
     if timer >= 576 then
-        GetNPCByID(ID.npc.LAUGHING_BISON):AnimationSub(1)
+        GetNPCByID(ID.npc.LAUGHING_BISON):setAnimationSub(1)
     else
-        GetNPCByID(ID.npc.LAUGHING_BISON):AnimationSub(0)
+        GetNPCByID(ID.npc.LAUGHING_BISON):setAnimationSub(0)
     end
     SetServerVariable("Mhaura_Deastination", math.random(1, 100))
 end
@@ -91,7 +91,7 @@ function onEventFinish(player, csid, option)
     elseif csid == 368 then
         -- Flag ROV 1-3 Mhuara Route (2)
         player:setCharVar("RhapsodiesStatus", 2)
-        player:completeMission(ROV, tpz.mission.id.rov.RESONACE)
-        player:addMission(ROV, tpz.mission.id.rov.EMISSARY_FROM_THE_SEAS)
+        player:completeMission(tpz.mission.log_id.ROV, tpz.mission.id.rov.RESONACE)
+        player:addMission(tpz.mission.log_id.ROV, tpz.mission.id.rov.EMISSARY_FROM_THE_SEAS)
     end
 end

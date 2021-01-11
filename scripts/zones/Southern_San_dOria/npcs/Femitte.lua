@@ -16,10 +16,10 @@ end
 function onTrigger(player, npc)
 
     local DistantLoyaltiesProgress = player:getCharVar("DistantLoyaltiesProgress")
-    local DistantLoyalties = player:getQuestStatus(SANDORIA, tpz.quest.id.sandoria.DISTANT_LOYALTIES)
+    local DistantLoyalties = player:getQuestStatus(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.DISTANT_LOYALTIES)
     local WildcatSandy = player:getCharVar("WildcatSandy")
 
-    if (player:getQuestStatus(SANDORIA, tpz.quest.id.sandoria.LURE_OF_THE_WILDCAT) == QUEST_ACCEPTED and not utils.mask.getBit(WildcatSandy, 3)) then
+    if (player:getQuestStatus(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.LURE_OF_THE_WILDCAT) == QUEST_ACCEPTED and not utils.mask.getBit(WildcatSandy, 3)) then
         player:startEvent(807)
     elseif (player:getFameLevel(SANDORIA) >= 4 and DistantLoyalties == 0) then
         player:startEvent(663)
@@ -43,7 +43,7 @@ function onEventFinish(player, csid, option)
     elseif (csid == 663 and option == 0) then
         player:addKeyItem(tpz.ki.GOLDSMITHING_ORDER)
         player:messageSpecial(ID.text.KEYITEM_OBTAINED, tpz.ki.GOLDSMITHING_ORDER)
-        player:addQuest(SANDORIA, tpz.quest.id.sandoria.DISTANT_LOYALTIES)
+        player:addQuest(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.DISTANT_LOYALTIES)
         player:setCharVar("DistantLoyaltiesProgress", 1)
     elseif (csid == 665) then
         if (player:getFreeSlotsCount() == 0) then
@@ -53,7 +53,7 @@ function onEventFinish(player, csid, option)
             player:addItem(13585, 1)
             player:messageSpecial(ID.text.ITEM_OBTAINED, 13585)
             player:setCharVar("DistantLoyaltiesProgress", 0)
-            player:completeQuest(SANDORIA, tpz.quest.id.sandoria.DISTANT_LOYALTIES)
+            player:completeQuest(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.DISTANT_LOYALTIES)
         end
     end
 

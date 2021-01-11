@@ -14,7 +14,7 @@ local ID = require("scripts/zones/Lower_Jeuno/IDs")
 -----------------------------------
 
 function onTrade(player, npc, trade)
-    if (player:getQuestStatus(JEUNO, tpz.quest.id.jeuno.BEAT_AROUND_THE_BUSHIN) == QUEST_ACCEPTED) then
+    if (player:getQuestStatus(tpz.quest.log_id.JEUNO, tpz.quest.id.jeuno.BEAT_AROUND_THE_BUSHIN) == QUEST_ACCEPTED) then
         if (trade:hasItemQty(1526, 1) == true and trade:getItemCount() == 1 and player:getCharVar("BeatAroundTheBushin") == 2) then
             player:startEvent(156) -- After trade Wyrm Beard
         elseif (trade:hasItemQty(1527, 1) == true and trade:getItemCount() == 1 and player:getCharVar("BeatAroundTheBushin") == 4) then
@@ -50,12 +50,12 @@ function onEventFinish(player, csid, option)
         player:setCharVar("PromathiaStatus", 1)
         player:startEvent(9)
     elseif (csid == 22 ) then
-        player:completeMission(COP, tpz.mission.id.cop.TENDING_AGED_WOUNDS)
-        player:addMission(COP, tpz.mission.id.cop.DARKNESS_NAMED)
+        player:completeMission(tpz.mission.log_id.COP, tpz.mission.id.cop.TENDING_AGED_WOUNDS)
+        player:addMission(tpz.mission.log_id.COP, tpz.mission.id.cop.DARKNESS_NAMED)
         player:setCharVar("PromathiaStatus", 0)
         player:startEvent(10)
     elseif (csid == 155) then
-        player:addQuest(JEUNO, tpz.quest.id.jeuno.BEAT_AROUND_THE_BUSHIN)
+        player:addQuest(tpz.quest.log_id.JEUNO, tpz.quest.id.jeuno.BEAT_AROUND_THE_BUSHIN)
         player:setCharVar("BeatAroundTheBushin", 2)
     elseif (csid == 156) then
         player:setCharVar("BeatAroundTheBushin", 3)
@@ -76,7 +76,7 @@ function onEventFinish(player, csid, option)
             player:setCharVar("BeatAroundTheBushin", 0)
             player:addFame(NORG, 125)
             player:tradeComplete()
-            player:completeQuest(JEUNO, tpz.quest.id.jeuno.BEAT_AROUND_THE_BUSHIN)
+            player:completeQuest(tpz.quest.log_id.JEUNO, tpz.quest.id.jeuno.BEAT_AROUND_THE_BUSHIN)
         end
     end
 end

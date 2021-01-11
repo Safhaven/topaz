@@ -51,7 +51,7 @@ function onRegionEnter(player, region)
         player:startEvent(14)
     elseif (player:getCurrentMission(TOAU) == tpz.mission.id.toau.TESTING_THE_WATERS and player:hasKeyItem(tpz.ki.EPHRAMADIAN_GOLD_COIN)) then
         player:startEvent(15)
-    elseif (player:getQuestStatus(AHT_URHGAN, tpz.quest.id.ahtUrhgan.AGAINST_ALL_ODDS) == QUEST_ACCEPTED and player:getCharVar("AgainstAllOdds") == 1) then
+    elseif (player:getQuestStatus(tpz.quest.log_id.AHT_URHGAN, tpz.quest.id.ahtUrhgan.AGAINST_ALL_ODDS) == QUEST_ACCEPTED and player:getCharVar("AgainstAllOdds") == 1) then
         player:startEvent(237)
     end
 end
@@ -69,11 +69,11 @@ function onEventFinish(player, csid, option)
     elseif (csid == 13) then
         player:setCharVar("AhtUrganStatus", 1)
     elseif (csid == 14) then
-        player:completeMission(TOAU, tpz.mission.id.toau.PREVALENCE_OF_PIRATES)
+        player:completeMission(tpz.mission.log_id.TOAU, tpz.mission.id.toau.PREVALENCE_OF_PIRATES)
         player:setCharVar("AhtUrganStatus", 0)
         player:addKeyItem(tpz.ki.PERIQIA_ASSAULT_AREA_ENTRY_PERMIT)
         player:messageSpecial(ID.text.KEYITEM_OBTAINED, tpz.ki.PERIQIA_ASSAULT_AREA_ENTRY_PERMIT)
-        player:addMission(TOAU, tpz.mission.id.toau.SHADES_OF_VENGEANCE)
+        player:addMission(tpz.mission.log_id.TOAU, tpz.mission.id.toau.SHADES_OF_VENGEANCE)
     elseif (csid == 15) then
         player:setCharVar("AhtUrganStatus", 1)
         player:setPos(0, 0, 0, 0, 57)

@@ -12,7 +12,7 @@ require("scripts/globals/titles")
 -----------------------------------
 
 function onTrade(player, npc, trade)
-    if (player:getQuestStatus(SANDORIA, tpz.quest.id.sandoria.WATER_OF_THE_CHEVAL) == QUEST_ACCEPTED) then
+    if (player:getQuestStatus(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.WATER_OF_THE_CHEVAL) == QUEST_ACCEPTED) then
         if (trade:getItemCount() == 1 and trade:hasItemQty(603, 1)) then
             player:startEvent(515)
         end
@@ -21,7 +21,7 @@ end
 
 function onTrigger(player, npc)
 
-    local watersOfTheCheval = player:getQuestStatus(SANDORIA, tpz.quest.id.sandoria.WATER_OF_THE_CHEVAL)
+    local watersOfTheCheval = player:getQuestStatus(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.WATER_OF_THE_CHEVAL)
     if (watersOfTheCheval == QUEST_ACCEPTED) then
         if (player:hasItem(602) == true) then
             player:startEvent(512)
@@ -50,10 +50,10 @@ function onEventFinish(player, csid, option)
             player:messageSpecial(ID.text.ITEM_OBTAINED, 13183)
             player:addFame(SANDORIA, 30)
             player:addTitle(tpz.title.THE_PURE_ONE)
-            player:completeQuest(SANDORIA, tpz.quest.id.sandoria.WATER_OF_THE_CHEVAL)
+            player:completeQuest(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.WATER_OF_THE_CHEVAL)
         end
     elseif (csid == 504) then
-        player:addQuest(SANDORIA, tpz.quest.id.sandoria.WATER_OF_THE_CHEVAL)
+        player:addQuest(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.WATER_OF_THE_CHEVAL)
     end
 
 end

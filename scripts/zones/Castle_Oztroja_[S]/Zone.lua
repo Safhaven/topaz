@@ -4,9 +4,12 @@
 --
 -----------------------------------
 local ID = require("scripts/zones/Castle_Oztroja_[S]/IDs")
+require("scripts/globals/campaign")
 -----------------------------------
 
 function onInitialize(zone)
+	tpz.campaign.initZone(zone)
+
     UpdateNMSpawnPoint(ID.mob.DUU_MASA_THE_ONECUT)
     GetMobByID(ID.mob.DUU_MASA_THE_ONECUT):setRespawnTime(math.random(900, 10800))
 

@@ -28,6 +28,7 @@
 
 #include "../lua/luautils.h"
 
+#include "../campaign_system.h"
 #include "../conquest_system.h"
 #include "../entities/mobentity.h"
 #include "../entities/npcentity.h"
@@ -658,6 +659,8 @@ namespace zoneutils
 
         LoadNPCList();
         LoadMOBList();
+        campaign::LoadState();
+        campaign::LoadNations();
 
         for (auto PZone : g_PZoneList)
         {

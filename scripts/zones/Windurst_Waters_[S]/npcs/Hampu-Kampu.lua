@@ -14,7 +14,7 @@ function onTrade(player, npc, trade)
 end
 
 function onTrigger(player, npc)
-    local sayItWithAHandbag = player:getQuestStatus(CRYSTAL_WAR, tpz.quest.id.crystalWar.SAY_IT_WITH_A_HANDBAG)
+    local sayItWithAHandbag = player:getQuestStatus(tpz.quest.log_id.CRYSTAL_WAR, tpz.quest.id.crystalWar.SAY_IT_WITH_A_HANDBAG)
     local sayItWithAHandbagCS = player:getCharVar("sayItWithAHandbagCS")
 
     if sayItWithAHandbag == QUEST_COMPLETED then
@@ -47,6 +47,6 @@ function onEventFinish(player, csid, option)
     elseif csid == 172 then
         npcUtil.giveKeyItem(player, tpz.ki.TORN_PATCHES_OF_LEATHER)
     elseif csid == 169 then
-        player:addQuest(CRYSTAL_WAR, tpz.quest.id.crystalWar.SAY_IT_WITH_A_HANDBAG)
+        player:addQuest(tpz.quest.log_id.CRYSTAL_WAR, tpz.quest.id.crystalWar.SAY_IT_WITH_A_HANDBAG)
     end
 end

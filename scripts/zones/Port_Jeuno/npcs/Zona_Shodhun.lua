@@ -50,7 +50,7 @@ function onTrade(player, npc, trade)
         end
     end
 
-    local PrettyLittleThings = player:getQuestStatus(JEUNO, tpz.quest.id.jeuno.PRETTY_LITTLE_THINGS)
+    local PrettyLittleThings = player:getQuestStatus(tpz.quest.log_id.JEUNO, tpz.quest.id.jeuno.PRETTY_LITTLE_THINGS)
 
     if (itemQuality == 2) then
         if (PrettyLittleThings == QUEST_COMPLETED) then
@@ -82,13 +82,13 @@ end
 function onEventFinish(player, csid, option)
 
     if (csid == 10023 and option == 4002) then
-        player:moghouseFlag(8)
+        player:setMoghouseFlag(8)
         player:messageSpecial(ID.text.MOGHOUSE_EXIT)
         player:addFame(JEUNO, 30)
         player:tradeComplete()
-        player:completeQuest(JEUNO, tpz.quest.id.jeuno.PRETTY_LITTLE_THINGS)
+        player:completeQuest(tpz.quest.log_id.JEUNO, tpz.quest.id.jeuno.PRETTY_LITTLE_THINGS)
     elseif (csid == 10023 and option == 1) then
         player:tradeComplete()
-        player:addQuest(JEUNO, tpz.quest.id.jeuno.PRETTY_LITTLE_THINGS)
+        player:addQuest(tpz.quest.log_id.JEUNO, tpz.quest.id.jeuno.PRETTY_LITTLE_THINGS)
     end
 end

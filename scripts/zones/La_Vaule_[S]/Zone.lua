@@ -6,9 +6,11 @@
 local ID = require("scripts/zones/La_Vaule_[S]/IDs")
 require("scripts/globals/missions")
 require("scripts/globals/zone")
+require("scripts/globals/campaign")
 -----------------------------------
 
 function onInitialize(zone)
+	tpz.campaign.initZone(zone)
 end
 
 function onZoneIn(player, prevZone)
@@ -30,7 +32,7 @@ end
 
 function onEventFinish(player, csid, option)
     if csid == 1 then
-        player:completeMission(WOTG, tpz.mission.id.wotg.A_TIMESWEPT_BUTTERFLY)
-        player:addMission(WOTG, tpz.mission.id.wotg.PURPLE_THE_NEW_BLACK)
+        player:completeMission(tpz.mission.log_id.WOTG, tpz.mission.id.wotg.A_TIMESWEPT_BUTTERFLY)
+        player:addMission(tpz.mission.log_id.WOTG, tpz.mission.id.wotg.PURPLE_THE_NEW_BLACK)
     end
 end

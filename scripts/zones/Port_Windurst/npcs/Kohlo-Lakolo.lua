@@ -19,8 +19,8 @@ local ID = require("scripts/zones/Port_Windurst/IDs")
 -----------------------------------
 
 function onTrade(player, npc, trade)
-    local TruthJusticeOnionWay = player:getQuestStatus(WINDURST, tpz.quest.id.windurst.TRUTH_JUSTICE_AND_THE_ONION_WAY)
-    local KnowOnesOnions       = player:getQuestStatus(WINDURST, tpz.quest.id.windurst.KNOW_ONE_S_ONIONS)
+    local TruthJusticeOnionWay = player:getQuestStatus(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.TRUTH_JUSTICE_AND_THE_ONION_WAY)
+    local KnowOnesOnions       = player:getQuestStatus(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.KNOW_ONE_S_ONIONS)
     if TruthJusticeOnionWay == QUEST_ACCEPTED then
         if npcUtil.tradeHas(trade, 4444) then
             player:startEvent(378, 0, 4444)
@@ -33,13 +33,13 @@ function onTrade(player, npc, trade)
 end
 
 function onTrigger(player, npc)
-    local TruthJusticeOnionWay = player:getQuestStatus(WINDURST, tpz.quest.id.windurst.TRUTH_JUSTICE_AND_THE_ONION_WAY)
-    local KnowOnesOnions       = player:getQuestStatus(WINDURST, tpz.quest.id.windurst.KNOW_ONE_S_ONIONS)
-    local InspectorsGadget     = player:getQuestStatus(WINDURST, tpz.quest.id.windurst.INSPECTOR_S_GADGET)
-    local OnionRings           = player:getQuestStatus(WINDURST, tpz.quest.id.windurst.ONION_RINGS)
-    local CryingOverOnions     = player:getQuestStatus(WINDURST, tpz.quest.id.windurst.CRYING_OVER_ONIONS)
-    local WildCard             = player:getQuestStatus(WINDURST, tpz.quest.id.windurst.WILD_CARD)
-    local ThePromise           = player:getQuestStatus(WINDURST, tpz.quest.id.windurst.THE_PROMISE)
+    local TruthJusticeOnionWay = player:getQuestStatus(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.TRUTH_JUSTICE_AND_THE_ONION_WAY)
+    local KnowOnesOnions       = player:getQuestStatus(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.KNOW_ONE_S_ONIONS)
+    local InspectorsGadget     = player:getQuestStatus(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.INSPECTOR_S_GADGET)
+    local OnionRings           = player:getQuestStatus(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.ONION_RINGS)
+    local CryingOverOnions     = player:getQuestStatus(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.CRYING_OVER_ONIONS)
+    local WildCard             = player:getQuestStatus(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.WILD_CARD)
+    local ThePromise           = player:getQuestStatus(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.THE_PROMISE)
     local NeedToZone           = player:needToZone()
     local Level                = player:getMainLvl()
     local Fame                 = player:getFameLevel(WINDURST)
@@ -93,7 +93,7 @@ end
 
 function onEventFinish(player, csid, option)
     if csid == 368  and option == 0 then
-        player:addQuest(WINDURST, tpz.quest.id.windurst.TRUTH_JUSTICE_AND_THE_ONION_WAY)
+        player:addQuest(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.TRUTH_JUSTICE_AND_THE_ONION_WAY)
     elseif csid == 378 then
         if npcUtil.completeQuest(
             player,
@@ -105,7 +105,7 @@ function onEventFinish(player, csid, option)
             player:tradeComplete()
         end
     elseif csid == 391 then
-        player:addQuest(WINDURST, tpz.quest.id.windurst.KNOW_ONE_S_ONIONS)
+        player:addQuest(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.KNOW_ONE_S_ONIONS)
     elseif csid == 398 then
         player:setCharVar("KnowOnesOnions", 1)
         player:tradeComplete()
@@ -120,7 +120,7 @@ function onEventFinish(player, csid, option)
             player:setLocalVar("KnowOneOnionZone", 1)
         end
     elseif csid == 413 and option == 0 then
-        player:addQuest(WINDURST, tpz.quest.id.windurst.INSPECTOR_S_GADGET)
+        player:addQuest(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.INSPECTOR_S_GADGET)
     elseif csid == 421 then
         if npcUtil.completeQuest(
             player,
@@ -131,20 +131,20 @@ function onEventFinish(player, csid, option)
             player:setLocalVar("InspectorsGadgetZone", 1)
         end
     elseif csid == 429 then
-        player:addQuest(WINDURST, tpz.quest.id.windurst.ONION_RINGS)
+        player:addQuest(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.ONION_RINGS)
     elseif csid == 430 then
-        if player:getQuestStatus(WINDURST, tpz.quest.id.windurst.ONION_RINGS) == QUEST_AVAILABLE then
-            player:addQuest(WINDURST, tpz.quest.id.windurst.ONION_RINGS)
+        if player:getQuestStatus(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.ONION_RINGS) == QUEST_AVAILABLE then
+            player:addQuest(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.ONION_RINGS)
         end
         player:setCharVar("OnionRings", 1)
     elseif csid == 496 then
-        player:addQuest(WINDURST, tpz.quest.id.windurst.CRYING_OVER_ONIONS)
+        player:addQuest(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.CRYING_OVER_ONIONS)
     elseif csid == 497 then
         player:setCharVar("CryingOverOnions", 4)
     elseif csid == 505 then
         player:setCharVar("WildCard", 1)
     elseif csid == 513 then
-        player:addQuest(WINDURST, tpz.quest.id.windurst.THE_PROMISE)
+        player:addQuest(tpz.quest.log_id.WINDURST, tpz.quest.id.windurst.THE_PROMISE)
     elseif csid == 522 then
         if npcUtil.giveItem(player, 13135) then
             npcUtil.completeQuest(player, WINDURST, tpz.quest.id.windurst.THE_PROMISE)

@@ -23,8 +23,8 @@ end
 
 function onTrigger(player, npc)
 
-    medicineWoman = player:getQuestStatus(SANDORIA, tpz.quest.id.sandoria.THE_MEDICINE_WOMAN)
-    toCureaCough = player:getQuestStatus(SANDORIA, tpz.quest.id.sandoria.TO_CURE_A_COUGH)
+    medicineWoman = player:getQuestStatus(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.THE_MEDICINE_WOMAN)
+    toCureaCough = player:getQuestStatus(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.TO_CURE_A_COUGH)
 
     if (medicineWoman == QUEST_ACCEPTED) then
         amaurasFormulaKI = player:hasKeyItem(tpz.ki.AMAURAS_FORMULA)
@@ -61,7 +61,7 @@ function onEventFinish(player, csid, option)
         player:addKeyItem(tpz.ki.COLD_MEDICINE)
         player:messageSpecial(ID.text.KEYITEM_OBTAINED, tpz.ki.COLD_MEDICINE)
     elseif (csid == 645) then
-        player:addQuest(SANDORIA, tpz.quest.id.sandoria.TO_CURE_A_COUGH)
+        player:addQuest(tpz.quest.log_id.SANDORIA, tpz.quest.id.sandoria.TO_CURE_A_COUGH)
     elseif (csid == 646) then
         player:delKeyItem(tpz.ki.THYME_MOSS)
         player:addKeyItem(tpz.ki.COUGH_MEDICINE)

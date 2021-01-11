@@ -13,7 +13,7 @@ function onTrade(player, npc, trade)
 end
 
 function onTrigger(player, npc)
-    local unforgiven = player:getQuestStatus(OTHER_AREAS_LOG, tpz.quest.id.otherAreas.UNFORGIVEN)
+    local unforgiven = player:getQuestStatus(tpz.quest.log_id.OTHER_AREAS, tpz.quest.id.otherAreas.UNFORGIVEN)
 
     if unforgiven == QUEST_ACCEPTED and player:getCharVar("UnforgivenVar") == 1 then
         player:startEvent(204) -- Dialogue for final stage of Unforgiven Quest
@@ -34,7 +34,7 @@ function onEventFinish(player, csid, option)
         player:messageSpecial(ID.text.KEYITEM_OBTAINED, tpz.ki.MAP_OF_TAVNAZIA) -- Map of Tavnazia
         player:addExp(2000 * EXP_RATE)
         player:addGil(2000 * GIL_RATE)
-        player:completeQuest(OTHER_AREAS_LOG, tpz.quest.id.otherAreas.UNFORGIVEN)
+        player:completeQuest(tpz.quest.log_id.OTHER_AREAS, tpz.quest.id.otherAreas.UNFORGIVEN)
     elseif csid == 206 then
         player:setCharVar("UnforgivenVar", 0)
     end

@@ -19,7 +19,7 @@
 ===========================================================================
 */
 
-#include "../../common/showmsg.h"
+#include "common/showmsg.h"
 
 #include "../region.h"
 
@@ -28,188 +28,409 @@
 #include "lua_baseentity.h"
 #include "lua_zone.h"
 
-/************************************************************************
- *                                                                       *
- *  Конструктор                                                          *
- *                                                                       *
- ************************************************************************/
-
-CLuaZone::CLuaZone(lua_State* L)
-{
-    if (!lua_isnil(L, -1))
-    {
-        m_pLuaZone = (CZone*)(lua_touserdata(L, -1));
-        lua_pop(L, 1);
-    }
-    else
-    {
-        m_pLuaZone = nullptr;
-    }
-}
-
-/************************************************************************
- *                                                                       *
- *  Конструктор                                                          *
- *                                                                       *
- ************************************************************************/
-
 CLuaZone::CLuaZone(CZone* PZone)
+: m_pLuaZone(PZone)
 {
-    m_pLuaZone = PZone;
+}
+
+/************************************************************************
+ *  Function: getLocalVar()
+ *  Purpose : Returns a variable assigned locally to an entity
+ *  Example : if (KingArthro:getLocalVar("[POP]King_Arthro") > 0) then
+ *  Notes   :
+ ************************************************************************/
+
+auto CLuaZone::getLocalVar(const char* var)
+{
+    return m_pLuaZone->GetLocalVar(var);
+}
+
+/************************************************************************
+ *  Function: setLocalVar()
+ *  Purpose : Assigns a local variable to an entity
+ *  Example : mob:setLocalVar("pop", os.time() + math.random(1200,7200));
+ *  Notes   :
+ ************************************************************************/
+
+void CLuaZone::setLocalVar(const char* var, uint32 val)
+{
+    m_pLuaZone->SetLocalVar(var, val);
 }
 
 /************************************************************************
  *                                                                       *
- *  Регистрируем активную область в зоне                                 *
- *  Формат входных данных: RegionID, x1, y1, z1, x2, y2, z2              *
+ * Registering the active area in the zone                               *
+ * Input data format: RegionID, x1, y1, z1, x2, y2, z2                   *
  *                                                                       *
  ************************************************************************/
 
-inline int32 CLuaZone::registerRegion(lua_State* L)
+void CLuaZone::registerRegion(uint32 RegionID, float x1, float y1, float z1, float x2, float y2, float z2)
 {
-    if (m_pLuaZone != nullptr)
+    bool circleRegion = false;
+    if (approximatelyEqual(x2, 0.0f) &&
+        approximatelyEqual(y2, 0.0f) &&
+        approximatelyEqual(z2, 0.0f))
     {
-        if (!lua_isnil(L, 1) && lua_isnumber(L, 1) && !lua_isnil(L, 2) && lua_isnumber(L, 2) && !lua_isnil(L, 3) && lua_isnumber(L, 3) && !lua_isnil(L, 4) &&
-            lua_isnumber(L, 4) && !lua_isnil(L, 5) && lua_isnumber(L, 5) && !lua_isnil(L, 6) && lua_isnumber(L, 6) && !lua_isnil(L, 7) && lua_isnumber(L, 7))
-        {
-            bool circleRegion = false;
-            if (lua_tointeger(L, 5) == 0 && lua_tointeger(L, 6) == 0 && lua_tointeger(L, 7) == 0)
-            {
-                circleRegion = true; // Parameters were 0, we must be a circle.
-            }
-
-            CRegion* Region = new CRegion((uint32)lua_tointeger(L, 1), circleRegion);
-
-            // If this is a circle, parameter 3 (which would otherwise be vertical coordinate) will be the radius.
-            Region->SetULCorner((float)lua_tointeger(L, 2), (float)lua_tointeger(L, 3), (float)lua_tointeger(L, 4));
-            Region->SetLRCorner((float)lua_tointeger(L, 5), (float)lua_tointeger(L, 6), (float)lua_tointeger(L, 7));
-
-            m_pLuaZone->InsertRegion(Region);
-        }
-        else
-        {
-            ShowWarning(CL_YELLOW "Region cannot be registered. Please check the parameters.\n" CL_RESET);
-        }
+        circleRegion = true; // Parameters were 0, we must be a circle.
     }
-    lua_pushnil(L);
-    return 1;
+
+    CRegion* Region = new CRegion(RegionID, circleRegion);
+
+    // If this is a circle, parameter 3 (which would otherwise be vertical coordinate) will be the radius.
+    Region->SetULCorner(x1, y1, z1);
+    Region->SetLRCorner(x2, y2, z2);
+
+    m_pLuaZone->InsertRegion(Region);
 }
 
 /************************************************************************
  *                                                                       *
- *  Устанавливаем ограничение уровня для зоны                            *
+ *  Setting the level limit for the zone                                 *
  *                                                                       *
  ************************************************************************/
 
-inline int32 CLuaZone::levelRestriction(lua_State* L)
+sol::object CLuaZone::levelRestriction()
 {
-    if (m_pLuaZone != nullptr)
-    {
-    }
-    lua_pushnil(L);
-    return 1;
+    return sol::nil;
 }
 
-inline int32 CLuaZone::getPlayers(lua_State* L)
+sol::table CLuaZone::getPlayers()
 {
-    TPZ_DEBUG_BREAK_IF(m_pLuaZone == nullptr);
-
-    lua_newtable(L);
-    int newTable = lua_gettop(L);
-
-    m_pLuaZone->ForEachChar([&L, &newTable](CCharEntity* PChar) {
-        lua_getglobal(L, CLuaBaseEntity::className);
-        lua_pushstring(L, "new");
-        lua_gettable(L, -2);
-        lua_insert(L, -2);
-        lua_pushlightuserdata(L, (void*)PChar);
-        lua_pcall(L, 2, 1, 0);
-        lua_setfield(L, newTable, (const char*)PChar->GetName());
-    });
-
-    return 1;
+    auto table = luautils::lua.create_table();
+    m_pLuaZone->ForEachChar([&table](CCharEntity* PChar) { table.add(CLuaBaseEntity(PChar)); });
+    return table;
 }
 
-inline int32 CLuaZone::getID(lua_State* L)
+ZONEID CLuaZone::getID()
 {
-    TPZ_DEBUG_BREAK_IF(m_pLuaZone == nullptr);
-
-    lua_pushinteger(L, m_pLuaZone->GetID());
-
-    return 1;
+    return m_pLuaZone->GetID();
 }
 
-inline int32 CLuaZone::getRegionID(lua_State* L)
+std::string CLuaZone::getName()
 {
-    TPZ_DEBUG_BREAK_IF(m_pLuaZone == nullptr);
-
-    lua_pushinteger(L, static_cast<uint8>(m_pLuaZone->GetRegionID()));
-
-    return 1;
+    return reinterpret_cast<const char*>(m_pLuaZone->GetName());
 }
 
-inline int32 CLuaZone::getType(lua_State* L)
+REGION_TYPE CLuaZone::getRegionID()
 {
-    TPZ_DEBUG_BREAK_IF(m_pLuaZone == nullptr);
-    lua_pushinteger(L, static_cast<uint8>(m_pLuaZone->GetType()));
-    return 1;
+    return m_pLuaZone->GetRegionID();
 }
 
-inline int32 CLuaZone::getBattlefieldByInitiator(lua_State* L)
+ZONE_TYPE CLuaZone::getType()
 {
-    TPZ_DEBUG_BREAK_IF(m_pLuaZone == nullptr);
-    TPZ_DEBUG_BREAK_IF(lua_isnil(L, 1) || !lua_isnumber(L, 1));
+    return m_pLuaZone->GetType();
+}
 
+std::optional<CLuaBattlefield> CLuaZone::getBattlefieldByInitiator(uint32 charID)
+{
     if (m_pLuaZone->m_BattlefieldHandler)
     {
-        lua_pushlightuserdata(L, (void*)m_pLuaZone->m_BattlefieldHandler->GetBattlefieldByInitiator((uint32)lua_tointeger(L, 1)));
+        return std::optional<CLuaBattlefield>(m_pLuaZone->m_BattlefieldHandler->GetBattlefieldByInitiator(charID));
     }
-    else
-    {
-        lua_pushnil(L);
-    }
-    return 1;
+    return std::nullopt;
 }
 
-inline int32 CLuaZone::battlefieldsFull(lua_State* L)
+bool CLuaZone::battlefieldsFull(int battlefieldId)
 {
-    TPZ_DEBUG_BREAK_IF(m_pLuaZone == nullptr);
-    int battlefieldId = lua_isnil(L, 1) ? -1 : (int)lua_tointeger(L, 1);
-    lua_pushboolean(L, (int)(m_pLuaZone->m_BattlefieldHandler && m_pLuaZone->m_BattlefieldHandler->ReachedMaxCapacity(battlefieldId)));
-    return 1;
+    return m_pLuaZone->m_BattlefieldHandler && m_pLuaZone->m_BattlefieldHandler->ReachedMaxCapacity(battlefieldId);
+}
+
+WEATHER CLuaZone::getWeather()
+{
+    return m_pLuaZone->GetWeather();
 }
 
 /************************************************************************
- *  Function: getWeather()
- *  Purpose : Returns the current weather status
+ *  Function: SetSoloBattleMusic(253)
+ *  Purpose : Set Solo Battle music for zone
  ************************************************************************/
 
-inline int32 CLuaZone::getWeather(lua_State* L)
+void CLuaZone::setSoloBattleMusic(uint8 musicId)
 {
-    TPZ_DEBUG_BREAK_IF(m_pLuaZone == nullptr);
-    WEATHER weather = m_pLuaZone->GetWeather();
-    lua_pushinteger(L, weather);
-    return 1;
+    m_pLuaZone->SetSoloBattleMusic(musicId);
+}
+
+auto CLuaZone::getSoloBattleMusic()
+{
+    return m_pLuaZone->GetSoloBattleMusic();
 }
 
 /************************************************************************
- *                                                                       *
- *  Initializing Methods in LUA                                          *
- *                                                                       *
+ *  Function: SetPartyBattleMusic(253)
+ *  Purpose : Set Party Battle music for zone
  ************************************************************************/
-// clang-format off
-const char CLuaZone::className[] = "CZone";
-Lunar<CLuaZone>::Register_t CLuaZone::methods[] =
+
+void CLuaZone::setPartyBattleMusic(uint8 musicId)
 {
-    LUNAR_DECLARE_METHOD(CLuaZone,registerRegion),
-    LUNAR_DECLARE_METHOD(CLuaZone,levelRestriction),
-    LUNAR_DECLARE_METHOD(CLuaZone,getPlayers),
-    LUNAR_DECLARE_METHOD(CLuaZone,getID),
-    LUNAR_DECLARE_METHOD(CLuaZone,getRegionID),
-    LUNAR_DECLARE_METHOD(CLuaZone,getType),
-    LUNAR_DECLARE_METHOD(CLuaZone,getBattlefieldByInitiator),
-    LUNAR_DECLARE_METHOD(CLuaZone,battlefieldsFull),
-    LUNAR_DECLARE_METHOD(CLuaZone,getWeather),
-    {nullptr,nullptr}
-};
-// clang-format on
+    m_pLuaZone->SetPartyBattleMusic(musicId);
+}
+
+auto CLuaZone::getPartyBattleMusic()
+{
+    return m_pLuaZone->GetPartyBattleMusic();
+}
+
+/************************************************************************
+ *  Function: SetBackgroundMusicDay(253)
+ *  Purpose : Set Background Day music for zone
+ ************************************************************************/
+
+void CLuaZone::setBackgroundMusicDay(uint8 musicId)
+{
+    m_pLuaZone->SetBackgroundMusicDay(musicId);
+}
+
+auto CLuaZone::getBackgroundMusicDay()
+{
+    return m_pLuaZone->GetBackgroundMusicDay();
+}
+
+/************************************************************************
+ *  Function: SetBackgroundMusicNight(253)
+ *  Purpose : Set Background Night music for zone
+ ************************************************************************/
+
+void CLuaZone::setBackgroundMusicNight(uint8 musicId)
+{
+    m_pLuaZone->SetBackgroundMusicNight(musicId);
+}
+
+auto CLuaZone::getBackgroundMusicNight()
+{
+    return m_pLuaZone->GetBackgroundMusicNight();
+}
+
+/************************************************************************
+ *  Function: setCampaignBattleStatus(true)
+ *  Purpose : Start and Stop a Campaign battle for this zone
+ ************************************************************************/
+void CLuaZone::setCampaignBattleStatus(uint8 flag)
+{
+    m_pLuaZone->m_CampaignHandler->SetBattleStatus(flag);
+}
+
+auto CLuaZone::getCampaignBattleStatus()
+{
+    return m_pLuaZone->m_CampaignHandler->GetBattleStatus();
+}
+
+/************************************************************************
+ *  Function: setCampaignRegionControl(1)
+ *  Purpose : Set which nation controls the zone
+ *  Values  : Sandy = 0, Bastok = 1, Windurst = 2, Beastmen = 3
+ ************************************************************************/
+
+void CLuaZone::setCampaignZoneControl(uint8 nation)
+{
+    m_pLuaZone->m_CampaignHandler->SetZoneControl(nation);
+}
+
+auto CLuaZone::getCampaignZoneControl()
+{
+    return m_pLuaZone->m_CampaignHandler->GetZoneControl();
+}
+
+/************************************************************************
+ *  Function: setCampaignFortification(250)
+ *  Purpose : Set the current Fortification value for the zone (max 1023)
+ ************************************************************************/
+
+void CLuaZone::setCampaignFortification(uint16 amount)
+{
+    m_pLuaZone->m_CampaignHandler->SetFortification(amount);
+}
+
+void CLuaZone::setCampaignMaxFortification(uint16 amount)
+{
+    m_pLuaZone->m_CampaignHandler->SetMaxFortification(amount);
+}
+
+auto CLuaZone::getCampaignFortification()
+{
+    return m_pLuaZone->m_CampaignHandler->GetFortification();
+}
+
+auto CLuaZone::getCampaignMaxFortification()
+{
+    return m_pLuaZone->m_CampaignHandler->GetMaxFortification();
+}
+
+/************************************************************************
+ *  Function: setCampaignResource(250)
+ *  Purpose : Set the current Resource value for the zone (max 1023)
+ ************************************************************************/
+
+void CLuaZone::setCampaignResource(uint16 amount)
+{
+    m_pLuaZone->m_CampaignHandler->SetResource(amount);
+}
+
+void CLuaZone::setCampaignMaxResource(uint16 amount)
+{
+    m_pLuaZone->m_CampaignHandler->SetMaxResource(amount);
+}
+
+auto CLuaZone::getCampaignResource()
+{
+    return m_pLuaZone->m_CampaignHandler->GetResource();
+}
+
+auto CLuaZone::getCampaignMaxResource()
+{
+    return m_pLuaZone->m_CampaignHandler->GetMaxResource();
+}
+
+/************************************************************************
+ *  Function: setCampaignHeroism(200)
+ *  Purpose : Set the current Heroism value for the zone (max 200)
+ ************************************************************************/
+
+void CLuaZone::setCampaignHeroism(uint16 amount)
+{
+    m_pLuaZone->m_CampaignHandler->SetHeroism(amount);
+}
+
+auto CLuaZone::getCampaignHeroism()
+{
+    return m_pLuaZone->m_CampaignHandler->GetHeroism();
+}
+
+/************************************************************************
+ *  Function: setCampaignInfluence(1)
+ *  Purpose : Set influence for a specific army (max 250)
+ *  Values  : Sandoria = 0, Bastok = 1, Windurst = 2, Orcish = 3,
+              Beastmen(Quadav = 4, Yagudo = 5, Kindred = 6)
+ ************************************************************************/
+
+void CLuaZone::setCampaignInfluence(uint8 army, uint16 amount)
+{
+    m_pLuaZone->m_CampaignHandler->SetInfluence((CampaignArmy)army, amount);
+}
+
+auto CLuaZone::getCampaignInfluence(uint8 army)
+{
+    return m_pLuaZone->m_CampaignHandler->GetInfluence((CampaignArmy)army);
+}
+
+/************************************************************************
+ *  Function: setCampaignReconnaissance(1,100)
+ *  Purpose : Set reconnaissance for a specific army (max 250)
+ *  Values  : Sandoria = 0, Bastok = 1, Windurst = 2, Orcish = 3,
+              Quadav = 4, Yagudo = 5, Kindred = 6
+ ************************************************************************/
+
+void CLuaZone::setCampaignReconnaissance(uint8 army, uint16 amount)
+{
+    campaign::SetReconnaissance((CampaignArmy)army, amount);
+}
+
+auto CLuaZone::getCampaignReconnaissance(uint8 army)
+{
+    return campaign::GetReconnaissance((CampaignArmy)army);
+}
+
+/************************************************************************
+ *  Function: setCampaignMorale(1,100)
+ *  Purpose : Set morale for a specific army (max 250)
+ *  Values  : Sandoria = 0, Bastok = 1, Windurst = 2, Orcish = 3,
+              Quadav = 4, Yagudo = 5, Kindred = 6
+ ************************************************************************/
+
+void CLuaZone::setCampaignMorale(uint8 army, uint16 amount)
+{
+    campaign::SetMorale((CampaignArmy)army, amount);
+}
+
+auto CLuaZone::getCampaignMorale(uint8 army)
+{
+    return campaign::GetMorale((CampaignArmy)army);
+}
+
+/************************************************************************
+ *  Function: setCampaignProsperity(1,100)
+ *  Purpose : Set prosperity for a specific army (max 250)
+ *  Values  : Sandoria = 0, Bastok = 1, Windurst = 2, Orcish = 3,
+              Quadav = 4, Yagudo = 5, Kindred = 6
+ ************************************************************************/
+
+void CLuaZone::setCampaignProsperity(uint8 army, uint16 amount)
+{
+    campaign::SetProsperity((CampaignArmy)army, amount);
+}
+
+auto CLuaZone::getCampaignProsperity(uint8 army)
+{
+    return campaign::GetProsperity((CampaignArmy)army);
+}
+
+/************************************************************************
+ *  Function: setCampaignUnionCount(1,20)
+ *  Purpose : Set a specific union to the number of current players in that union
+ *  Values  : Adder = 1, Bison = 2, Coyote = 3, Dhole = 4, Eland = 5
+ ************************************************************************/
+
+void CLuaZone::setCampaignUnionCount(uint8 unionid, uint16 amount)
+{
+    m_pLuaZone->m_CampaignHandler->SetUnionCount((CampaignUnion)unionid, amount);
+}
+
+auto CLuaZone::getCampaignUnionCount(uint8 unionId)
+{
+    return m_pLuaZone->m_CampaignHandler->GetUnionCount((CampaignUnion)unionId);
+}
+
+//======================================================//
+
+void CLuaZone::Register()
+{
+    SOL_USERTYPE("CZone", CLuaZone);
+    SOL_REGISTER("getLocalVar", CLuaZone::getLocalVar);
+    SOL_REGISTER("setLocalVar", CLuaZone::setLocalVar);
+    SOL_REGISTER("registerRegion", CLuaZone::registerRegion);
+    SOL_REGISTER("levelRestriction", CLuaZone::levelRestriction);
+    SOL_REGISTER("getPlayers", CLuaZone::getPlayers);
+    SOL_REGISTER("getID", CLuaZone::getID);
+    SOL_REGISTER("getName", CLuaZone::getName);
+    SOL_REGISTER("getRegionID", CLuaZone::getRegionID);
+    SOL_REGISTER("getType", CLuaZone::getType);
+    SOL_REGISTER("getBattlefieldByInitiator", CLuaZone::getBattlefieldByInitiator);
+    SOL_REGISTER("battlefieldsFull", CLuaZone::battlefieldsFull);
+    SOL_REGISTER("getWeather", CLuaZone::getWeather);
+
+    SOL_REGISTER("getSoloBattleMusic", CLuaZone::getSoloBattleMusic);
+    SOL_REGISTER("getPartyBattleMusic", CLuaZone::getPartyBattleMusic);
+    SOL_REGISTER("getBackgroundMusicDay", CLuaZone::getBackgroundMusicDay);
+    SOL_REGISTER("getBackgroundMusicNight", CLuaZone::getBackgroundMusicNight);
+    SOL_REGISTER("setSoloBattleMusic", CLuaZone::setSoloBattleMusic);
+    SOL_REGISTER("setPartyBattleMusic", CLuaZone::setPartyBattleMusic);
+    SOL_REGISTER("setBackgroundMusicDay", CLuaZone::setBackgroundMusicDay);
+    SOL_REGISTER("setBackgroundMusicNight", CLuaZone::setBackgroundMusicNight);
+
+    SOL_REGISTER("getCampaignBattleStatus", CLuaZone::getCampaignBattleStatus);
+    SOL_REGISTER("getCampaignZoneControl", CLuaZone::getCampaignZoneControl);
+    SOL_REGISTER("getCampaignFortification", CLuaZone::getCampaignFortification);
+    SOL_REGISTER("getCampaignResource", CLuaZone::getCampaignResource);
+    SOL_REGISTER("getCampaignMaxFortification", CLuaZone::getCampaignMaxFortification);
+    SOL_REGISTER("getCampaignMaxResource", CLuaZone::getCampaignMaxResource);
+    SOL_REGISTER("getCampaignInfluence", CLuaZone::getCampaignInfluence);
+    SOL_REGISTER("getCampaignReconnaissance", CLuaZone::getCampaignReconnaissance);
+    SOL_REGISTER("getCampaignMorale", CLuaZone::getCampaignMorale);
+    SOL_REGISTER("getCampaignProsperity", CLuaZone::getCampaignProsperity);
+    SOL_REGISTER("getCampaignHeroism", CLuaZone::getCampaignHeroism);
+    SOL_REGISTER("getCampaignUnionCount", CLuaZone::getCampaignUnionCount);
+
+    SOL_REGISTER("setCampaignBattleStatus", CLuaZone::setCampaignBattleStatus);
+    SOL_REGISTER("setCampaignZoneControl", CLuaZone::setCampaignZoneControl);
+    SOL_REGISTER("setCampaignFortification", CLuaZone::setCampaignFortification);
+    SOL_REGISTER("setCampaignResource", CLuaZone::setCampaignResource);
+    SOL_REGISTER("setCampaignMaxFortification", CLuaZone::setCampaignMaxFortification);
+    SOL_REGISTER("setCampaignMaxResource", CLuaZone::setCampaignMaxResource);
+    SOL_REGISTER("setCampaignInfluence", CLuaZone::setCampaignInfluence);
+    SOL_REGISTER("setCampaignReconnaissance", CLuaZone::setCampaignReconnaissance);
+    SOL_REGISTER("setCampaignMorale", CLuaZone::setCampaignMorale);
+    SOL_REGISTER("setCampaignProsperity", CLuaZone::setCampaignProsperity);
+    SOL_REGISTER("setCampaignHeroism", CLuaZone::setCampaignHeroism);
+    SOL_REGISTER("setCampaignUnionCount", CLuaZone::setCampaignUnionCount);
+}
+
+//======================================================//

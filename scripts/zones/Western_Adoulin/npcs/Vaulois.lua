@@ -13,7 +13,7 @@ function onTrade(player, npc, trade)
 end
 
 function onTrigger(player, npc)
-    local Transporting = player:getQuestStatus(ADOULIN, tpz.quest.id.adoulin.TRANSPORTING)
+    local Transporting = player:getQuestStatus(tpz.quest.log_id.ADOULIN, tpz.quest.id.adoulin.TRANSPORTING)
     if ((Transporting == QUEST_ACCEPTED) and (player:getCharVar("Transporting_Status") >= 2)) then
         -- Finishing Quest: 'Transporting'
         player:startEvent(2591)
@@ -32,10 +32,10 @@ end
 function onEventFinish(player, csid, option)
     if (csid == 2590) then
         -- Starting Quest: 'Transporting'
-        player:addQuest(ADOULIN, tpz.quest.id.adoulin.TRANSPORTING)
+        player:addQuest(tpz.quest.log_id.ADOULIN, tpz.quest.id.adoulin.TRANSPORTING)
     elseif (csid == 2591) then
         -- Finishing Quest: 'Transporting'
-        player:completeQuest(ADOULIN, tpz.quest.id.adoulin.TRANSPORTING)
+        player:completeQuest(tpz.quest.log_id.ADOULIN, tpz.quest.id.adoulin.TRANSPORTING)
         player:addExp(1000 * EXP_RATE)
         player:addCurrency('bayld', 300 * BAYLD_RATE)
         player:messageSpecial(ID.text.BAYLD_OBTAINED, 300 * BAYLD_RATE)

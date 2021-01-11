@@ -28,7 +28,7 @@ function onZoneIn(player, prevZone)
 
     if
         ENABLE_ABYSSEA == 1 and player:getMainLvl() >= 30
-        and player:getQuestStatus(ABYSSEA, tpz.quest.id.abyssea.A_JOURNEY_BEGINS) == QUEST_AVAILABLE
+        and player:getQuestStatus(tpz.quest.log_id.ABYSSEA, tpz.quest.id.abyssea.A_JOURNEY_BEGINS) == QUEST_AVAILABLE
     then
         cs = 324
     end
@@ -84,6 +84,6 @@ function onEventFinish(player, csid, option)
     elseif (csid == 10013) then
         player:setPos(0, 0, 0, 0, 226)
     elseif (csid == 324) then
-        player:addQuest(ABYSSEA, tpz.quest.id.abyssea.A_JOURNEY_BEGINS)
+        player:addQuest(tpz.quest.log_id.ABYSSEA, tpz.quest.id.abyssea.A_JOURNEY_BEGINS)
     end
 end

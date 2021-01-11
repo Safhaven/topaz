@@ -28,7 +28,7 @@ function tpz.limbus.setupArmouryCrates(bfid, hide)
     else
         ID = zones[tpz.zone.TEMENOS]
     end
-    
+
     switch (bfid): caseof
     {
         [1290] = function() -- NW_Apollyon
